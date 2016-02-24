@@ -1,0 +1,16 @@
+# Visual Studio Files
+*.suo
+*.sln
+
+# Source Data is too big for git 
+source/
+sunday/data/seed/
+
+# Vagrant & Docker
+.cache/
+.docker/
+.vagrant/
+.bash_history
+
+# Dont store credentials
+.env

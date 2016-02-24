@@ -1,0 +1,380 @@
+<?xml version="1.0" standalone="yes"?>
+<Lynx>
+  <xs:schema id="Lynx" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+    <xs:element name="Lynx" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Tables" msprop:TableType="EntitySet">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" />
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Relations" msprop:TargetSet="Tables" msprop:TableType="LinkSet" msprop:SourceSet="Tables">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Source" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+                <xs:element name="Destination" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="SourceName" msdata:ReadOnly="true" msdata:Expression="Parent(Relations_Source).Name" type="xs:string" minOccurs="0" />
+                <xs:element name="DestinationName" msdata:ReadOnly="true" msdata:Expression="Parent(Relations_Target).Name" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Tables" />
+        <xs:field xpath="ID" />
+      </xs:unique>
+      <xs:keyref name="Relations_Target" refer="Constraint1">
+        <xs:selector xpath=".//Relations" />
+        <xs:field xpath="Destination" />
+      </xs:keyref>
+      <xs:keyref name="Relations_Source" refer="Constraint1">
+        <xs:selector xpath=".//Relations" />
+        <xs:field xpath="Source" />
+      </xs:keyref>
+    </xs:element>
+  </xs:schema>
+  <Tables>
+    <ID>a999be0e-2b8e-4fab-b055-5faf6aa52aa9</ID>
+    <Name>application</Name>
+    <Description>Information on the applications for granted patent.</Description>
+  </Tables>
+  <Tables>
+    <ID>72fecb78-fd6b-4d96-b307-1445d10968a7</ID>
+    <Name>assignee</Name>
+    <Description>Disambiguated assignee data</Description>
+  </Tables>
+  <Tables>
+    <ID>eac39a92-4aed-4980-89f7-2fef94d23494</ID>
+    <Name>claim</Name>
+    <Description>Full text of patent claims, including dependency and sequence</Description>
+  </Tables>
+  <Tables>
+    <ID>61bbc9b9-25ae-4f06-ba70-fdf7b4f1047a</ID>
+    <Name>cpc_current</Name>
+    <Description>Current CPC classification of the patent</Description>
+  </Tables>
+  <Tables>
+    <ID>20dcd557-ff1b-40a0-a8c5-85c5e6a94580</ID>
+    <Name>cpc_group</Name>
+    <Description>CPC group classification at issue of the patent </Description>
+  </Tables>
+  <Tables>
+    <ID>0e0e5eb1-e329-460a-b536-eff1f007f3b4</ID>
+    <Name>cpc_subgroup</Name>
+    <Description>CPC subgroup classification at issue of the patent </Description>
+  </Tables>
+  <Tables>
+    <ID>cbfdebfc-393c-4f32-9404-9ff68db4dd04</ID>
+    <Name>cpc_subsection</Name>
+    <Description>CPC subsection classification at issue of the patent </Description>
+  </Tables>
+  <Tables>
+    <ID>44cbc64b-2462-408a-a896-69c2c9a227b5</ID>
+    <Name>foreigncitation</Name>
+    <Description>Citations made to foreign patents by US patents</Description>
+  </Tables>
+  <Tables>
+    <ID>dac57640-cc42-44b0-90e5-1c641a53ad3a</ID>
+    <Name>inventor</Name>
+    <Description>Disambiguated inventor data</Description>
+  </Tables>
+  <Tables>
+    <ID>44862538-b20a-416c-875c-44f122114443</ID>
+    <Name>ipcr</Name>
+    <Description>International Patent Classification</Description>
+  </Tables>
+  <Tables>
+    <ID>33d026a2-546c-411c-ae21-ed134343579f</ID>
+    <Name>lawyer</Name>
+    <Description>Disambiguated lawyer data</Description>
+  </Tables>
+  <Tables>
+    <ID>5b1ca406-b330-43bc-9d50-d5d42c9eb498</ID>
+    <Name>location</Name>
+    <Description>Disambiguated location data for inventors and assignees</Description>
+  </Tables>
+  <Tables>
+    <ID>276f611e-7d93-4f0b-a39d-2bf5038d3d8e</ID>
+    <Name>mainclass</Name>
+    <Description>Metadata for USPTO technology classes at patent issue date</Description>
+  </Tables>
+  <Tables>
+    <ID>6f1d5b27-1b3e-4157-8244-64f470c9d110</ID>
+    <Name>mainclass_current</Name>
+    <Description>Metadata for USPTO current technology classes</Description>
+  </Tables>
+  <Tables>
+    <ID>e3b6ca28-5830-4abc-b051-1cd58614e401</ID>
+    <Name>nber</Name>
+    <Description>NBER Patent Classification</Description>
+  </Tables>
+  <Tables>
+    <ID>e2241929-7c2f-4e35-a874-d3c86514fc4a</ID>
+    <Name>nber_category</Name>
+    <Description>Metadata for NBER technology categories</Description>
+  </Tables>
+  <Tables>
+    <ID>a9f737ce-6d3d-4999-b4f1-83e0b64a2132</ID>
+    <Name>nber_subcategory</Name>
+    <Description>Metadata for NBER technology subcategories</Description>
+  </Tables>
+  <Tables>
+    <ID>5e368ab3-2d4a-4acb-962b-9fffa08962c5</ID>
+    <Name>otherreference</Name>
+    <Description>Citations made to non-patent documents by US patents</Description>
+  </Tables>
+  <Tables>
+    <ID>c99f5200-a12d-4b66-9945-bf9f86faa5d7</ID>
+    <Name>patent</Name>
+    <Description>Data concerning granted patents</Description>
+  </Tables>
+  <Tables>
+    <ID>766573ad-5cd9-407b-bd03-7cd8d40ece9d</ID>
+    <Name>rawassignee</Name>
+    <Description>Raw assignee information as it appears in the source XML files</Description>
+  </Tables>
+  <Tables>
+    <ID>10d80a88-1dd7-4a2b-8d94-9a7445921e0b</ID>
+    <Name>rawinventor</Name>
+    <Description>Raw inventor information as it appears in the source XML files</Description>
+  </Tables>
+  <Tables>
+    <ID>6df6d688-817a-4138-bba1-55b8f61ae46b</ID>
+    <Name>rawlawyer</Name>
+    <Description>Raw lawyer information as it appears in the source XML files</Description>
+  </Tables>
+  <Tables>
+    <ID>405ef73b-8d7b-4628-9696-c9fef939d969</ID>
+    <Name>rawlocation</Name>
+    <Description>Raw location information as it appears in the source XML files</Description>
+  </Tables>
+  <Tables>
+    <ID>dddc1fca-1103-44e2-9532-672f20ec1afd</ID>
+    <Name>subclass</Name>
+    <Description>Metadata for USPTO technology subclasses</Description>
+  </Tables>
+  <Tables>
+    <ID>8bfacadd-dd81-451f-bd05-73727e7d6f25</ID>
+    <Name>subclass_current</Name>
+    <Description>Metadata for USPTO current technology subclasses</Description>
+  </Tables>
+  <Tables>
+    <ID>c27a8d74-0a03-4db3-87a2-51db9724fd51</ID>
+    <Name>usapplicationcitation</Name>
+    <Description>Citations made to US patent applications by US patents</Description>
+  </Tables>
+  <Tables>
+    <ID>ec12b967-b0c2-4d63-ba08-066b54f6c6e1</ID>
+    <Name>uspatentcitation</Name>
+    <Description>Citations made to US granted patents by US patents</Description>
+  </Tables>
+  <Tables>
+    <ID>0d295bf0-eb89-41ea-af9c-4f65156ffe8d</ID>
+    <Name>uspc</Name>
+    <Description>USPTO patent classification at patent issue date</Description>
+  </Tables>
+  <Tables>
+    <ID>6808fe98-4b1f-4db1-8e29-7469f26163de</ID>
+    <Name>uspc_current</Name>
+    <Description>USPTO current patent classification </Description>
+  </Tables>
+  <Tables>
+    <ID>4ce85602-1750-4aad-8d29-1b6339a27b5d</ID>
+    <Name>usreldoc</Name>
+    <Description>US Related Documents for granted patents</Description>
+  </Tables>
+  <Relations>
+    <Source>a999be0e-2b8e-4fab-b055-5faf6aa52aa9</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>application</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>eac39a92-4aed-4980-89f7-2fef94d23494</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>claim</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>61bbc9b9-25ae-4f06-ba70-fdf7b4f1047a</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>cpc_current</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>61bbc9b9-25ae-4f06-ba70-fdf7b4f1047a</Source>
+    <Destination>20dcd557-ff1b-40a0-a8c5-85c5e6a94580</Destination>
+    <SourceName>cpc_current</SourceName>
+    <DestinationName>cpc_group</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>61bbc9b9-25ae-4f06-ba70-fdf7b4f1047a</Source>
+    <Destination>0e0e5eb1-e329-460a-b536-eff1f007f3b4</Destination>
+    <SourceName>cpc_current</SourceName>
+    <DestinationName>cpc_subgroup</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>61bbc9b9-25ae-4f06-ba70-fdf7b4f1047a</Source>
+    <Destination>cbfdebfc-393c-4f32-9404-9ff68db4dd04</Destination>
+    <SourceName>cpc_current</SourceName>
+    <DestinationName>cpc_subsection</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>44cbc64b-2462-408a-a896-69c2c9a227b5</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>foreigncitation</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>44862538-b20a-416c-875c-44f122114443</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>ipcr</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>e3b6ca28-5830-4abc-b051-1cd58614e401</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>nber</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>e3b6ca28-5830-4abc-b051-1cd58614e401</Source>
+    <Destination>e2241929-7c2f-4e35-a874-d3c86514fc4a</Destination>
+    <SourceName>nber</SourceName>
+    <DestinationName>nber_category</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>e3b6ca28-5830-4abc-b051-1cd58614e401</Source>
+    <Destination>a9f737ce-6d3d-4999-b4f1-83e0b64a2132</Destination>
+    <SourceName>nber</SourceName>
+    <DestinationName>nber_subcategory</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>5e368ab3-2d4a-4acb-962b-9fffa08962c5</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>otherreference</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>766573ad-5cd9-407b-bd03-7cd8d40ece9d</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>rawassignee</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>766573ad-5cd9-407b-bd03-7cd8d40ece9d</Source>
+    <Destination>72fecb78-fd6b-4d96-b307-1445d10968a7</Destination>
+    <SourceName>rawassignee</SourceName>
+    <DestinationName>assignee</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>766573ad-5cd9-407b-bd03-7cd8d40ece9d</Source>
+    <Destination>405ef73b-8d7b-4628-9696-c9fef939d969</Destination>
+    <SourceName>rawassignee</SourceName>
+    <DestinationName>rawlocation</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>10d80a88-1dd7-4a2b-8d94-9a7445921e0b</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>rawinventor</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>10d80a88-1dd7-4a2b-8d94-9a7445921e0b</Source>
+    <Destination>dac57640-cc42-44b0-90e5-1c641a53ad3a</Destination>
+    <SourceName>rawinventor</SourceName>
+    <DestinationName>inventor</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>10d80a88-1dd7-4a2b-8d94-9a7445921e0b</Source>
+    <Destination>405ef73b-8d7b-4628-9696-c9fef939d969</Destination>
+    <SourceName>rawinventor</SourceName>
+    <DestinationName>rawlocation</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>6df6d688-817a-4138-bba1-55b8f61ae46b</Source>
+    <Destination>33d026a2-546c-411c-ae21-ed134343579f</Destination>
+    <SourceName>rawlawyer</SourceName>
+    <DestinationName>lawyer</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>6df6d688-817a-4138-bba1-55b8f61ae46b</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>rawlawyer</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>405ef73b-8d7b-4628-9696-c9fef939d969</Source>
+    <Destination>5b1ca406-b330-43bc-9d50-d5d42c9eb498</Destination>
+    <SourceName>rawlocation</SourceName>
+    <DestinationName>location</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>c27a8d74-0a03-4db3-87a2-51db9724fd51</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>usapplicationcitation</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>c27a8d74-0a03-4db3-87a2-51db9724fd51</Source>
+    <Destination>a999be0e-2b8e-4fab-b055-5faf6aa52aa9</Destination>
+    <SourceName>usapplicationcitation</SourceName>
+    <DestinationName>application</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>ec12b967-b0c2-4d63-ba08-066b54f6c6e1</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>uspatentcitation</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>0d295bf0-eb89-41ea-af9c-4f65156ffe8d</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>uspc</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>0d295bf0-eb89-41ea-af9c-4f65156ffe8d</Source>
+    <Destination>276f611e-7d93-4f0b-a39d-2bf5038d3d8e</Destination>
+    <SourceName>uspc</SourceName>
+    <DestinationName>mainclass</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>0d295bf0-eb89-41ea-af9c-4f65156ffe8d</Source>
+    <Destination>dddc1fca-1103-44e2-9532-672f20ec1afd</Destination>
+    <SourceName>uspc</SourceName>
+    <DestinationName>subclass</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>6808fe98-4b1f-4db1-8e29-7469f26163de</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>uspc_current</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>6808fe98-4b1f-4db1-8e29-7469f26163de</Source>
+    <Destination>6f1d5b27-1b3e-4157-8244-64f470c9d110</Destination>
+    <SourceName>uspc_current</SourceName>
+    <DestinationName>mainclass_current</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>6808fe98-4b1f-4db1-8e29-7469f26163de</Source>
+    <Destination>8bfacadd-dd81-451f-bd05-73727e7d6f25</Destination>
+    <SourceName>uspc_current</SourceName>
+    <DestinationName>subclass_current</DestinationName>
+  </Relations>
+  <Relations>
+    <Source>4ce85602-1750-4aad-8d29-1b6339a27b5d</Source>
+    <Destination>c99f5200-a12d-4b66-9945-bf9f86faa5d7</Destination>
+    <SourceName>usreldoc</SourceName>
+    <DestinationName>patent</DestinationName>
+  </Relations>
+</Lynx>
