@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import Flask, request
 from flask_restful import abort, Api, Resource
 from flask_restful.reqparse import RequestParser
@@ -6,12 +7,18 @@ from flask_restful.reqparse import RequestParser
 # -----------------------------------------------------------------------------
 
 def envKeys():
-    ''' Generator for the list of keys in the .env file
+    ''' Generator for the list of keys in the .env file and the environ vars
     '''
-    yield ('POSTGRES_USER', 'foo')
-    yield ('POSTGRES_PASSWORD', 'bar')
-    yield ('POSTGRES_DATABASE', 'sunday')
+    env = dict(os.environ)
+    for pair in env.items():
+        yield pair
+    yield ('PGUSER', 'jfarley')
+    yield ('PGDATABASE', 'sunday')
 
+def anyKey(keys, *candidates):
+    for key in candidates:
+        if key in keys:
+            return keys[key]
 # -----------------------------------------------------------------------------
 
 class DB():
@@ -23,26 +30,22 @@ class DB():
         import psycopg2
 
         keys = {k:v for k,v in envKeys()}
+        keys.update(kwargs)
         
-        if 'POSTGRES_USER' in keys:
-            user = keys['POSTGRES_USER']
-        else:
+        user = anyKey(keys, 'POSTGRES_USER', 'PGUSER')
+        if not user:
             print("User Name must be specified in the '.env' file", 
                   file=sys.stderr)
             return None
 
-        if 'POSTGRES_PASSWORD' in keys:
-            password = keys['POSTGRES_PASSWORD']
-        else:
+        password = anyKey(keys, 'POSTGRES_PASSWORD', 'PGPASSWORD')
+        if not password:
             print("Password must be specified in the '.env' file", 
                   file=sys.stderr)
             return None
 
-        if 'database' in kwargs:
-            database = kwargs['database']
-        elif 'POSTGRES_DATABASE' in keys:
-            database = keys['POSTGRES_DATABASE']
-        else:
+        database = anyKey(keys, 'database', 'PGDATABASE', 'POSTGRES_DB')
+        if not database:
             print("The database must be specified in the '.env' file or kwargs", 
                   file=sys.stderr)
             return None
@@ -140,7 +143,7 @@ class PatentIndex(Resource):
 
             entry = {'title': title,
                      'number': x['number'],
-                     'date': x['date'].isoformat(),
+                     'date': x['date'],
                      'links': [{
                                 'href': baseUri + '/{}'.format(id),
                                 'rel': 'item',
@@ -169,7 +172,12 @@ class PatentIndex(Resource):
 
         with DB.connection() as connection:
             store = Patent(connection)
-            build = self.atomEntryBuilder(request.base_url)
+            if request.base_url[-1] == '/':
+                baseUri = request.base_url[:-1]
+            else:
+                baseUri = request.base_url
+
+            build = self.atomEntryBuilder(baseUri)
             if limit:
                 return [build(x) 
                         for i,x in enumerate(store.getAll())
@@ -197,8 +205,8 @@ class PatentDetail(Resource):
 app = Flask(__name__)
 api = Api(app)
 api.add_resource(Root, '/')
-api.add_resource(PatentIndex, '/patent')
-api.add_resource(PatentDetail, '/patent/<id>')
+api.add_resource(PatentIndex, '/patent', '/patent/')
+api.add_resource(PatentDetail, '/patent/<id>', '/patent/<id>/')
 
 # -----------------------------------------------------------------------------
 
