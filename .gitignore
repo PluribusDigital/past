@@ -13,5 +13,8 @@ seed-*.txt
 .vagrant/
 .bash_history
 
+# python
+__pycache__/
+
 # Dont store credentials
 .env

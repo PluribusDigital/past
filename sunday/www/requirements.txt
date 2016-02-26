@@ -1,2 +1,6 @@
+nltk
+psycopg2
+requests
 flask
-Redis
+flask-restful
+numpy
