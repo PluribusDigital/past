@@ -1,0 +1,11 @@
+web:
+  build: ./www
+  ports:
+   - "5000:5000"
+  volumes:
+   - ./www:/code
+  links:
+   - redis
+redis:
+  image: redis:alpine
+  

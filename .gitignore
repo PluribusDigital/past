@@ -4,7 +4,8 @@
 
 # Source Data is too big for git 
 source/
-sunday/data/seed/
+partitions/
+seed-*.txt
 
 # Vagrant & Docker
 .cache/

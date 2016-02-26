@@ -6,8 +6,9 @@ import zipfile
 from collections import Counter
 from itertools import islice
 
-SOURCE_DIR = '../source'
-SEED_DIR = '../seed'
+SOURCE_DIR = './source'
+PARTITION_DIR = './partitions'
+SEED_DIR = '../db/seed'
 
 TENK = 10000
 HUNDREDK = 100000
@@ -67,7 +68,7 @@ uspcTopTen = {'257', '428', '514', '435', '438',
               '455', '370', '424', '348', '375'}
 
 def partitionFileName():
-    return os.path.join(SEED_DIR, 'partition.txt')
+    return os.path.join(PARTITION_DIR, 'partition.txt')
 
 def generatePatentIds(keyField, values, fileName):
     ''' Builds a subset of patents that fall within particular categories and ranges
