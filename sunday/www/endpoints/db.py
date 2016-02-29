@@ -29,20 +29,18 @@ class DB():
         
         user = anyKey(keys, 'POSTGRES_USER', 'PGUSER')
         if not user:
-            print("User Name must be specified in the '.env' file", 
-                  file=sys.stderr)
+            sys.stderr.write("Username must be specified in the '.env' file\n")
             return None
 
         password = anyKey(keys, 'POSTGRES_PASSWORD', 'PGPASSWORD')
         if not password:
-            print("Password must be specified in the '.env' file", 
-                  file=sys.stderr)
+            sys.stderr.write("Password must be specified in the '.env' file\n")
             return None
 
         database = anyKey(keys, 'database', 'PGDATABASE', 'POSTGRES_DB')
         if not database:
-            print("The database must be specified in the '.env' file or kwargs", 
-                  file=sys.stderr)
+            sys.stderr.write("The database must be specified in the '.env' file\n")
             return None
 
-        return psycopg2.connect(database=database, user=user, password=password)
+        dsn = "host={0} dbname={1} user={2} password={3}"
+        return psycopg2.connect(dsn.format('db', database, user, password))

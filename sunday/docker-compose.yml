@@ -1,11 +1,17 @@
 web:
+  env_file: /home/vagrant/.env
   build: ./www
   ports:
    - "5000:5000"
-  volumes:
-   - ./www:/code
+  #volumes:
+  # - ./www:/www
   links:
-   - redis
-redis:
-  image: redis:alpine
+   - db
+db:
+  env_file: /home/vagrant/.env
+  build: ./db
+  ports:
+   - "5432:5432"
+  volumes:
+   - /var/lib/postgresql/data:/var/lib/postgresql/data
   

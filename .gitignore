@@ -16,6 +16,7 @@ seed-*.txt
 
 # python
 __pycache__/
+*.pyc
 
 # Dont store credentials
 .env

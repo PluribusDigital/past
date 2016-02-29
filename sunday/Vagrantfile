@@ -40,14 +40,15 @@ Vagrant.configure(2) do |config|
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
   end
 
-  config.vm.provision :docker do |d|
-	d.images = ["redis:alpine"]
-	d.build_image "/home/vagrant/www", args: "-t web"
-  end
+  # Install docker
+  config.vm.provision :docker
 
   # Install docker-compose
-  #config.vm.provision "shell", inline: <<-EOC
-  #  curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-  #	chmod +x /usr/local/bin/docker-compose
-  #EOC
+  config.vm.provision "docker-compose", type: "shell", inline: <<-EOC
+    curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  	chmod +x /usr/local/bin/docker-compose
+  EOC
+
+  # Possibly build images and run
+  config.vm.provision "shell", inline: "docker-compose up -d", run: "always"
 end
