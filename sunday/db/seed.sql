@@ -10,7 +10,7 @@ copy patent
   abstract,
   title
 )
-from 'C:/dvp/past/sunday/db/seed/seed-patent.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-patent.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy application
@@ -22,7 +22,7 @@ copy application
   country,
   date
 )
-from 'C:/dvp/past/sunday/db/seed/seed-application.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-application.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy claim
@@ -33,7 +33,7 @@ copy claim
   dependent,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-claim.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-claim.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	', NULL 'NULL');
 
 copy cpc_current
@@ -47,7 +47,7 @@ copy cpc_current
   category,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-cpc-current.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-cpc-current.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy rawassignee
@@ -62,7 +62,7 @@ copy rawassignee
   organization,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-rawassignee.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-rawassignee.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy rawinventor
@@ -75,7 +75,7 @@ copy rawinventor
   name_last,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-rawinventor.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-rawinventor.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy rawlawyer
@@ -89,7 +89,7 @@ copy rawlawyer
   country,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-rawlawyer.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-rawlawyer.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 copy uspc_current
@@ -100,5 +100,5 @@ copy uspc_current
   subclass_id,
   sequence
 )
-from 'C:/dvp/past/sunday/db/seed/seed-uspc-current.txt'
+from '/docker-entrypoint-initdb.d/seed/seed-uspc-current.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');

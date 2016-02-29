@@ -1,6 +1,4 @@
-nltk
 psycopg2
 requests
 flask
 flask-restful
-numpy

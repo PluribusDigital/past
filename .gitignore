@@ -12,6 +12,7 @@ seed-*.txt
 .docker/
 .vagrant/
 .bash_history
+.bash_profile
 
 # python
 __pycache__/
