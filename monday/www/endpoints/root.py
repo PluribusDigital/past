@@ -2,6 +2,13 @@ import jot
 from flask import request, abort
 from flask_restful import Resource
 
+class Reader(object):
+    def __init__(self, s):
+        self.text = s
+
+    def __iter__(self):
+        yield (self.text, '')
+
 class Root(Resource):
     """ Return the list of available top-level endpoints
     """
@@ -24,7 +31,10 @@ class Root(Resource):
             abort(400, message="You must supply some text")
 
         jotter = jot.Jotter.build()
+        reader = Reader(s)
+
+        result = [x for x in jotter.run(reader, 0)]
 
         # build the clusters
-        return s, 201
+        return result, 201
 

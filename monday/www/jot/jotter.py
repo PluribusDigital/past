@@ -20,16 +20,16 @@ def buildTranslateTable():
                                 if unicodedata.combining(unichr(c)))
 
     # punctuation
-    table[0x2013] = "-"
-    table[0x2014] = "-"
-    table[0x2018] = "'"
-    table[0x2019] = "'"
-    table[0x201C] = '"'
-    table[0x201D] = '"'
-    table[0x2022] = '*'      # bullet
-    table[0x2044] = '/'
-    table[10] = ' '
-    table[13] = ' '
+    table[0x2013] = u"-"
+    table[0x2014] = u"-"
+    table[0x2018] = u"'"
+    table[0x2019] = u"'"
+    table[0x201C] = u'"'
+    table[0x201D] = u'"'
+    table[0x2022] = u'*'      # bullet
+    table[0x2044] = u'/'
+    table[10] = u' '
+    table[13] = u' '
 
     return table
 
@@ -112,6 +112,8 @@ class Jotter(object):
     def build(cls):
         path = 'taggers/maxent_treebank_pos_tagger/english.pickle'
         tagger = nltk.data.load(path).tag_sents
+
+        connection = ''
 
         pipeline = [
                     bindTagger(tagger),
