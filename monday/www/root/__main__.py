@@ -10,4 +10,4 @@ api = Api(app)
 api.add_resource(Root, '/')
 
 sys.dont_write_bytecode = debugging
-app.run(host='0.0.0.0', debug=debugging)
+app.run(host='0.0.0.0', debug=False)

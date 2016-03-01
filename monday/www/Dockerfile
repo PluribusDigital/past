@@ -1,8 +1,7 @@
 # Thanks
 # http://stackoverflow.com/questions/30624829/no-such-file-or-directory-limits-h-when-installing-pillow-on-alpine-linux
 
-#FROM python:3-alpine
-FROM alpine
+FROM anapsix/alpine-java
 
 RUN apk update
 RUN apk add gcc musl-dev ca-certificates
@@ -17,7 +16,11 @@ RUN pip install -r requirements.txt
 RUN python -m nltk.downloader book
 RUN python -m nltk.downloader snowball_data
 
-ADD . /www
+ADD ./source /stanford
+ENV CLASSPATH "/stanford/postagger"
+ENV STANFORD_MODELS "/stanford/postagger/models"
+
+ADD ./root /www
 WORKDIR /www
 
 CMD ["python", "__main__.py"]
