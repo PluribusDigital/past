@@ -138,7 +138,7 @@ class Jotter(object):
     # Contract Methods
     # -------------------------------------------------------------------------
 
-    def run(self, reader, doc_id):
+    def run(self, reader):
 
         # Execute pipeline methods
         x = self.unit(reader)
@@ -157,7 +157,6 @@ class Jotter(object):
                 'pos': mk[3],
                 'morph_id': mk[4],
                 'syntax_id': mk[5],
-                'doc_id': doc_id,
                 'count': total[mk]
                 }
 
