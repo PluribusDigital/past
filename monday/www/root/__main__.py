@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 from endpoints import *
 from flask import Flask
 from flask_restful import Api
@@ -10,4 +10,4 @@ api = Api(app)
 api.add_resource(Root, '/')
 
 sys.dont_write_bytecode = debugging
-app.run(host='0.0.0.0', debug=debugging)
+app.run(host='0.0.0.0', debug=False, threaded=True)

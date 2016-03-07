@@ -33,7 +33,7 @@ class Root(Resource):
         jotter = jot.Jotter.build()
         reader = Reader(s)
 
-        result = [x for x in jotter.run(reader)]
+        result = [x for x in jotter.run(reader, 0)]
 
         # build the clusters
         return result, 201

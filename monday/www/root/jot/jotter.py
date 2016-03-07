@@ -4,7 +4,7 @@ import unicodedata
 from nltk.stem.snowball import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
-from jot import Morphology, XRay #, CompoundTagger
+from jot import Morphology, XRay, CompoundTagger
 
 def buildTranslateTable():
     ''' Creates the default table for replacing accented and non-english \
@@ -110,8 +110,9 @@ class Jotter(object):
     # -------------------------------------------------------------------------
     @classmethod
     def build(cls):
-        path = 'taggers/maxent_treebank_pos_tagger/english.pickle'
-        tagger = nltk.data.load(path).tag_sents
+        #path = 'taggers/maxent_treebank_pos_tagger/english.pickle'
+        #tagger = nltk.data.load(path).tag_sents
+        tagger = CompoundTagger()
 
         connection = ''
 
@@ -138,7 +139,7 @@ class Jotter(object):
     # Contract Methods
     # -------------------------------------------------------------------------
 
-    def run(self, reader):
+    def run(self, reader, doc_id):
 
         # Execute pipeline methods
         x = self.unit(reader)
@@ -157,6 +158,7 @@ class Jotter(object):
                 'pos': mk[3],
                 'morph_id': mk[4],
                 'syntax_id': mk[5],
+                'doc_id': doc_id,
                 'count': total[mk]
                 }
 
