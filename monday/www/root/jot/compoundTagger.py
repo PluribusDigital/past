@@ -1,4 +1,4 @@
-from nltk.tag import StanfordPOSTagger
+﻿from nltk.tag import StanfordPOSTagger
 
 # -----------------------------------------------------------------------------
 # Single Tuple Processing Functions
