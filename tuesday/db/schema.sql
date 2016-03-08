@@ -1,4 +1,4 @@
-﻿CREATE TABLE morphology
+CREATE TABLE morphology
 (
   id serial NOT NULL,
   features character varying,
@@ -102,3 +102,21 @@ CREATE INDEX tally_corpus_idx ON tally USING btree (corpus_id);
 CREATE INDEX tally_token_idx ON tally USING btree (token);
 
 CREATE INDEX tally_lemma_idx ON tally USING btree (lemma);
+
+CREATE TABLE delta
+(
+    lemma character varying,
+	count integer
+);
+
+CREATE INDEX delta_lemma_idx ON delta USING btree (lemma);
+
+CREATE TABLE dockw
+(
+    lemma character varying,
+    doc_id integer,
+	tfidf double precision,
+    CONSTRAINT dockw_doc_fkey FOREIGN KEY (doc_id) REFERENCES document (id) ON DELETE CASCADE
+);
+
+CREATE INDEX dockw_lemma_idx ON delta USING btree (lemma);
