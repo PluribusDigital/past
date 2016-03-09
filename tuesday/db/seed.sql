@@ -1,4 +1,4 @@
-﻿TRUNCATE morphology RESTART IDENTITY;
+TRUNCATE morphology RESTART IDENTITY;
 TRUNCATE syntax RESTART IDENTITY;
 TRUNCATE corpus RESTART IDENTITY CASCADE;
 TRUNCATE document RESTART IDENTITY CASCADE;
@@ -31,6 +31,10 @@ WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 COPY tally
 FROM '/docker-entrypoint-initdb.d/seed/seed-tally.txt'
+WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
+
+COPY dockw
+FROM '/docker-entrypoint-initdb.d/seed/seed-dockw.txt'
 WITH (FORMAT 'csv', HEADER true, DELIMITER '	');
 
 --COPY batch
