@@ -1,0 +1,136 @@
+[
+  {
+    "count": 1,
+    "lemma": ",",
+    "token": ",",
+    "morph_id": 5,
+    "pos": "PUNCT",
+    "syntax_id": 0,
+    "stem": ","
+  },
+  {
+    "count": 3,
+    "lemma": ".",
+    "token": ".",
+    "morph_id": 6,
+    "pos": "PUNCT",
+    "syntax_id": 0,
+    "stem": "."
+  },
+  {
+    "count": 2,
+    "lemma": "can",
+    "token": "can",
+    "morph_id": 20,
+    "pos": "NOUN",
+    "syntax_id": 0,
+    "stem": "can"
+  },
+  {
+    "count": 2,
+    "lemma": "feel",
+    "token": "felt",
+    "morph_id": 36,
+    "pos": "VERB",
+    "syntax_id": 0,
+    "stem": "felt"
+  },
+  {
+    "count": 1,
+    "lemma": "felt",
+    "token": "felt",
+    "morph_id": 20,
+    "pos": "NOUN",
+    "syntax_id": 0,
+    "stem": "felt"
+  },
+  {
+    "count": 1,
+    "lemma": "go",
+    "token": "went",
+    "morph_id": 36,
+    "pos": "VERB",
+    "syntax_id": 0,
+    "stem": "go"
+  },
+  {
+    "count": 3,
+    "lemma": "i",
+    "token": "i",
+    "morph_id": 26,
+    "pos": "PRON",
+    "syntax_id": 0,
+    "stem": "i"
+  },
+  {
+    "count": 1,
+    "lemma": "in",
+    "token": "in",
+    "morph_id": 14,
+    "pos": "ADP",
+    "syntax_id": 0,
+    "stem": "in"
+  },
+  {
+    "count": 1,
+    "lemma": "of",
+    "token": "of",
+    "morph_id": 14,
+    "pos": "ADP",
+    "syntax_id": 0,
+    "stem": "of"
+  },
+  {
+    "count": 1,
+    "lemma": "saw",
+    "token": "saw",
+    "morph_id": 20,
+    "pos": "NOUN",
+    "syntax_id": 0,
+    "stem": "saw"
+  },
+  {
+    "count": 1,
+    "lemma": "saw",
+    "token": "saw",
+    "morph_id": 36,
+    "pos": "VERB",
+    "syntax_id": 0,
+    "stem": "saw"
+  },
+  {
+    "count": 1,
+    "lemma": "saw",
+    "token": "sawing",
+    "morph_id": 37,
+    "pos": "VERB",
+    "syntax_id": 0,
+    "stem": "saw"
+  },
+  {
+    "count": 4,
+    "lemma": "the",
+    "token": "the",
+    "morph_id": 11,
+    "pos": "DET",
+    "syntax_id": 0,
+    "stem": "the"
+  },
+  {
+    "count": 1,
+    "lemma": "well",
+    "token": "well",
+    "morph_id": 20,
+    "pos": "NOUN",
+    "syntax_id": 0,
+    "stem": "well"
+  },
+  {
+    "count": 2,
+    "lemma": "well",
+    "token": "well",
+    "morph_id": 28,
+    "pos": "ADV",
+    "syntax_id": 0,
+    "stem": "well"
+  }]
