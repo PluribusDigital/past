@@ -1,18 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# ----------------------------------------------------------------------------- 
-# Maybe the only variables that need changing between projects!
-# ----------------------------------------------------------------------------- 
-project = "past-tuesday"
-docker_repo = "stsilabs"
-
+project = "past"
 container_root = "/home/vagrant"
-
-# ----------------------------------------------------------------------------- 
-# Derive some other variables
-# ----------------------------------------------------------------------------- 
-tag = docker_repo + "/" + project
 
 # ----------------------------------------------------------------------------- 
 # Configure the VM
@@ -44,7 +34,4 @@ Vagrant.configure(2) do |config|
     curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
   	chmod +x /usr/local/bin/docker-compose
   EOC
-
-  # Possibly build images and run
-  #config.vm.provision "shell", inline: "docker-compose up -d", run: "always"
 end

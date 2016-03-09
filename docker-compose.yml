@@ -1,0 +1,15 @@
+web:
+  env_file: /home/vagrant/sunday/.env
+  build: ./sunday/www
+  ports:
+   - "5000:5000"
+  links:
+   - db
+db:
+  env_file: /home/vagrant/sunday/.env
+  build: ./sunday/db
+  ports:
+   - "5432:5432"
+  volumes:
+   - /var/lib/postgresql/sunday-data:/var/lib/postgresql/data
+  
