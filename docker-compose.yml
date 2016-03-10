@@ -1,15 +1,42 @@
-web:
-  env_file: /home/vagrant/sunday/.env
+sunday-web:
+  env_file: ~/.env
+  environment:
+  - POSTGRES_DB=sunday
   build: ./sunday/www
   ports:
-   - "5000:5000"
+   - "8081:5000"
   links:
-   - db
-db:
-  env_file: /home/vagrant/sunday/.env
+   - sunday-db:db
+sunday-db:
+  env_file: ~/.env
+  environment:
+  - POSTGRES_DB=sunday
   build: ./sunday/db
   ports:
    - "5432:5432"
   volumes:
    - /var/lib/postgresql/sunday-data:/var/lib/postgresql/data
-  
+monday-web:
+  build: ./monday/www
+  ports:
+   - "8082:5000"
+tuesday-web:
+  env_file: ~/.env
+  environment:
+  - POSTGRES_DB=tuesday
+  - POSTGRES_HOST=db
+  - POSTGRES_PORT=2345
+  build: ./tuesday/www
+  ports:
+   - "8080:5000"
+  links:
+   - tuesday-db:db
+tuesday-db:
+  env_file: ~/.env
+  environment:
+  - POSTGRES_DB=tuesday
+  build: ./tuesday/db
+  ports:
+   - "2345:5432"
+  volumes:
+   - /var/lib/postgresql/tuesday-data:/var/lib/postgresql/data  

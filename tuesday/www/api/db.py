@@ -54,8 +54,12 @@ class DB(object):
         if not host:
             host = 'localhost'
 
-        dsn = "host={0} dbname={1} user={2} password={3}"
-        return psycopg2.connect(dsn.format(host, database, user, password))
+        port = anyKey(keys, 'POSTGRES_PORT', 'PGPORT')
+        if not port:
+            port = 5432
+
+        dsn = "host={0} dbname={1} user={2} password={3} port={4}"
+        return psycopg2.connect(dsn.format(host, database, user, password, port))
 
     @classmethod
     def _seed_delta(cls, conn):

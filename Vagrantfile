@@ -4,6 +4,8 @@
 project = "past"
 container_root = "/home/vagrant"
 
+PORTS = %w(8080 8081 8082 2345 2346 5000)
+
 # ----------------------------------------------------------------------------- 
 # Configure the VM
 # ----------------------------------------------------------------------------- 
@@ -11,8 +13,9 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.box_check_update = false
 
-  config.vm.network "forwarded_port", guest: 5000, host: 8080
-  config.vm.network "forwarded_port", guest: 5432, host: 2345
+  PORTS.each do |p|
+    config.vm.network "forwarded_port", guest: p, host: p
+  end
 
   config.vm.synced_folder ".", "#{container_root}"
 
