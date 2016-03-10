@@ -67,4 +67,4 @@ class Server(object):
 
     @classmethod
     def run(cls, **kwargs):
-        app.run(host='0.0.0.0', debug=False, threaded=True)
+        app.run(host='0.0.0.0', debug=True, threaded=True)

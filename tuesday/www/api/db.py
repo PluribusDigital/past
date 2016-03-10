@@ -35,24 +35,22 @@ class DB(object):
         keys = {k:v for k,v in envKeys()}
         keys.update(kwargs)
         
-        user = anyKey(keys, 'PASP_DATABASE_USER', 'POSTGRES_USER', 'PGUSER')
+        user = anyKey(keys, 'POSTGRES_USER', 'PGUSER')
         if not user:
             sys.stderr.write("Username must be specified in the '.env' file\n")
             return None
 
-        password = anyKey(keys, 'PASP_DATABASE_PASSWORD', 'POSTGRES_PASSWORD', 
-                          'PGPASSWORD')
+        password = anyKey(keys, 'POSTGRES_PASSWORD', 'PGPASSWORD')
         if not password:
             sys.stderr.write("Password must be specified in the '.env' file\n")
             return None
 
-        database = anyKey(keys, 'database', 'PASP_DATABASE', 'POSTGRES_DB', 
-                          'PGDATABASE')
+        database = anyKey(keys, 'database', 'POSTGRES_DB', 'PGDATABASE')
         if not database:
             sys.stderr.write("The database must be specified in the '.env' file\n")
             return None
 
-        host = anyKey('PASP_DATABASE_HOST')
+        host = anyKey(keys, 'POSTGRES_HOST', 'PGHOST')
         if not host:
             host = 'localhost'
 
