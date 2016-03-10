@@ -7,6 +7,6 @@ from api.endpoints.corpus_document_index import CorpusDocumentIndex
 from api.endpoints.document_corpus_index import DocumentCorpusIndex
 from api.endpoints.document_corpus_detail import DocumentCorpusDetail
 from api.endpoints.document_closest import DocumentClosest
-#from api.endpoints.keyword import Keyword
+from api.endpoints.keyword import Keyword
 from api.endpoints.rank_root import RankRoot
-#from api.endpoints.rank import Rank
+from api.endpoints.rank import Rank

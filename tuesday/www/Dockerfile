@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 ADD . /www
 WORKDIR /www
 
-CMD ["python", "-B", "__main__.py"]
+CMD ["python", "-B", "-m", "api"]

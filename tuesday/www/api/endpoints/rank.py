@@ -8,9 +8,9 @@ from flask_restful.reqparse import RequestParser
 from nltk.stem.snowball import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 from api import DB
+from api.tfidf import Tf_Idf
 from api.models import Document, Corpus
 from api.endpoints import DocumentIndex
-from api.jot import Tf_Idf
 
 PLACES = Decimal('0.0001')
 

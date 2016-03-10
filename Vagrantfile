@@ -18,6 +18,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |v|
     v.name = project
+	v.memory = 2000
+	v.cpus = 2
   end
 
   # https://github.com/Varying-Vagrant-Vagrants/VVV/issues/517

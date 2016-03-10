@@ -67,11 +67,14 @@ class DB(object):
 
     @classmethod
     def _seed_tally(cls, conn):
-        taggerPath = relToAbs('../../db/seed/seed_tally.txt')
+        taggerPath = relToAbs('../../db/seed/seed-tally.txt')
+        sql = """
+        COPY tally
+        FROM STDIN
+        WITH (FORMAT 'csv', HEADER true, DELIMITER '\t');
+        """
+
         with open(taggerPath, 'r') as f:
             with conn.cursor() as cur:
                 cur.execute('TRUNCATE tally')
-                cur.copy_from(f, 'tally', columns=['corpus_id','token',
-                                                    'lemma','stem','pos',
-                                                    'morph_id','syntax_id',
-                                                    'doc_count','count'])
+                cur.copy_expert(sql=sql, file=f)

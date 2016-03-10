@@ -4,7 +4,7 @@ from decimal import *
 from flask_restful import Resource
 from flask_restful.reqparse import RequestParser
 from api import DB
-from api.jot import Tf_Idf
+from api.tfidf import Tf_Idf
 
 PLACES = Decimal('0.0001')
 

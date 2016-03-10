@@ -1,4 +1,4 @@
-import os
+﻿import os
 import argparse
 import api.endpoints as EP
 from flask import Flask, send_file
@@ -24,12 +24,12 @@ api.add_resource(EP.DocumentCorpusIndex, '/document/<int:id>/corpus',
 api.add_resource(EP.DocumentCorpusDetail, 
                  '/document/<int:doc_id>/corpus/<int:corpus_id>',
                  resource_class_kwargs=KWARGS)
-#api.add_resource(EP.Keyword, 
-#                 '/document/<int:doc_id>/keywords', 
-#                 '/document/<int:doc_id>/corpus/<int:corpus_id>/keywords',
-#                 '/corpus/<int:corpus_id>/keywords')
+api.add_resource(EP.Keyword, 
+                 '/document/<int:doc_id>/keywords', 
+                 '/document/<int:doc_id>/corpus/<int:corpus_id>/keywords',
+                 '/corpus/<int:corpus_id>/keywords')
 api.add_resource(EP.RankRoot, '/rank')
-#api.add_resource(EP.Rank, '/rank/<words>', resource_class_kwargs=KWARGS)
+api.add_resource(EP.Rank, '/rank/<words>', resource_class_kwargs=KWARGS)
 
 @app.route('/')
 @app.route('/document')
