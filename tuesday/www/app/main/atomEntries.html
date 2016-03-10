@@ -1,0 +1,61 @@
+﻿<img src="app/spinner.gif" ng-show="loading" width="128" height="128" />
+
+<div ng-hide="loading">
+    <div ng-show="showNavigation">
+        <div class="col-xs-12 col-sm-12 col-lg-4" style="margin: 5px 0; padding: 4px 0;">
+            <input type="text" ng-model="searchText" placeholder="Search" class="col-xs-10" />
+        </div>
+        <div class="col-xs-12 col-sm-8 col-lg-5">
+            <div pagination total-items="totalItems"
+                items-per-page="pageSize"
+                ng-model="currentPage"
+                max-size="5"
+                boundary-links="true"
+                style="margin: 5px 0;"
+                ng-change="pageChanged()">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-lg-3" style="margin: 5px 0;">
+            <span class="pull-right">Showing {{offset + 1}} to {{lastShown}} of {{totalItems}} entries</span>
+        </div>
+    </div>
+
+    <div class="clearfix visible-xs-block"></div>
+
+    <div class="row col-xs-12 table-responsive">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th ng-repeat="col in columns" ng-show="col['show']">
+                        <div ng-click="setOrder(col['name'])">
+                            <span>{{ col['title'] }}</span>
+                            <small ng-if="col['name'] === orderBy" class="glyphicon glyphicon-arrow-up"></small>
+                            <small ng-if="'-' + col['name'] === orderBy" class="glyphicon glyphicon-arrow-down"></small>
+                        </div>
+                    </th>
+                    <th ng-if="showRemove">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in (filtered | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
+                    <td ng-repeat="col in columns" ng-show="col['show']">
+                        <span ng-if="col['name'] === 'title'">
+                            <a href="{{row.view}}">
+                                <span class="h4">{{row.title}}</span>
+                            </a>
+                            <br />
+                            <small ng-repeat="link in row.links">&nbsp;<a ng-href="{{link.href}}">{{link.title}}</a>&nbsp;
+                            </small>
+                        </span>
+                        <span ng-if="col['name'] !== 'title'">{{row[col['name']]}}</span>
+                    </td>
+                    <td ng-if="showRemove">
+                        <button class="btn btn-link" ng-click="remove({url:row.view})">
+                            <span class="glyphicon glyphicon-remove text-danger"></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

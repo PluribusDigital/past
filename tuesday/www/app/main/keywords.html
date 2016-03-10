@@ -1,0 +1,60 @@
+﻿<div>
+    <ol class="breadcrumb">
+        <li ng-show="document != ''">
+            <a ng-href="{{baseUrl + '/document'}}">Document</a>
+        </li>
+        <li ng-show="document != ''">
+            <a ng-href="{{baseUrl + '/document/' + doc_id}}">{{document}}</a>
+        </li>
+        <li ng-show="corpus != ''">
+            <a ng-href="{{baseUrl + '/corpus'}}">Corpus</a>
+        </li>
+        <li ng-show="corpus != ''">
+            <a ng-href="{{baseUrl + '/corpus/' + corpus_id}}">{{corpus}}</a>
+        </li>
+        <li class="active">Keywords</li>
+    </ol>
+</div>
+
+<div class="col-xs-10" atom-entries entries="keywords" order-by="-score"></div>
+
+<div class="col-xs-2">
+    <form name="form" ng-submit="refresh()" class="form-horizontal">
+        <div class="form-group">
+            <label>Field</label>
+            <select ng-model="field"
+                    ng-options="f for f in fields">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Limit</label>
+            <select ng-model="limit"
+                    ng-options="l for l in limits">
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="includePos">
+                    Part of Speech
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="includeMorph">
+                    Morphology
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="includeSyntax">
+                    Syntax
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-refresh"> Refresh</span>
+        </button>
+    </form>
+</div>
+

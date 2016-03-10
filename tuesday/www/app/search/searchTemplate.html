@@ -1,0 +1,24 @@
+﻿<form style="position: relative;">
+    <div class="input-group" ng-hide="hide">
+        <input type="text" class="form-control" name="quickSearch" id="quickSearch"
+            placeholder="{{searchPlaceholder}}"
+            ng-model="searchText">
+        <div class="input-group-btn">
+            <div class="btn-group" ng-class='{open: dropDownOpen}'>
+                <button class="btn btn-primary" type="submit" 
+                    ng-disabled="disabled"
+                    ng-click="search()" 
+                    style="padding-top: 6px;">{{goTitle}}</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+                    ng-click='dropDownOpen=!dropDownOpen'>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="(field, title) in searchTypes">
+                        <a ng-click="switchSearchType(field)">{{title}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>

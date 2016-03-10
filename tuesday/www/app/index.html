@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/" />
+    <title>Prior Art Search Prototype</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="app/main/main.css">
+</head>
+<body ng-app="pasp">
+    <div class="container-fluid">
+
+	    <nav class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container-fluid">
+			    <div class="navbar-header">
+				    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
+					        ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">
+					    <span class="sr-only">Toggle navigation</span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+				    </button>
+				    <a class="navbar-brand" ng-href="/">PASP</a>
+			    </div>
+			    <div id="navbar" class="navbar-collapse" ng-class="{collapse: isCollapsed}">
+				    <ul class="nav navbar-nav">
+					    <li><a ng-href="document">Documents</a></li>
+				    </ul>
+				    <ul class="nav navbar-nav">
+					    <li><a ng-href="corpus">Corpora</a></li>
+				    </ul>
+                    <div search-box hide-on-home="true" class="navbar-form navbar-right col-sm-6" style="margin-top: 8px;"></div>
+			    </div><!--/.nav-collapse -->
+		    </div>
+	    </nav>
+
+        <div ng-view style="margin-top: 50px;" autoscroll></div>
+
+    </div>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/main/atomEntries.js"></script>
+    <script src="app/main/document.js"></script>
+    <script src="app/main/keywords.js"></script>
+    <script src="app/main/rank.js"></script>
+    <script src="app/main/rawApi.js"></script>
+    <script src="app/search/searchBox.js"></script>
+</body>
+</html>

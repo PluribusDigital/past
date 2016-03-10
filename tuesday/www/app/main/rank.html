@@ -1,0 +1,51 @@
+﻿<div class="row">
+    <ol class="breadcrumb pull-left">
+        <li class="active">Rank</li>
+    </ol>
+</div>
+
+<div class="table-responsive col-xs-10">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th ng-repeat="col in columns" ng-show="col['show']">
+            <div ng-click="setOrder(col['name'])">
+                <span>{{ col['title'] }}</span>
+                <small ng-if="col['name'] === orderBy" class="glyphicon glyphicon-arrow-up"></small>
+                <small ng-if="'-' + col['name'] === orderBy" class="glyphicon glyphicon-arrow-down"></small>
+            </div>
+            </th>
+        </tr>
+        </thead> 
+        <tbody>
+        <tr ng-repeat="row in (model | orderBy:orderBy)">
+            <td ng-repeat="col in columns" ng-show="col['show']">
+                <span ng-if="col['name'] === 'title'">
+                    <a ng-href="{{row.link}}">{{row.title}}</a>&nbsp;
+                </span>
+                <span ng-if="col['name'] !== 'title'">{{row[col['name']]}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-xs-2">
+    <form name="form" ng-submit="refresh()" class="form-horizontal">
+        <div class="form-group">
+            <label>Corpus</label>
+            <select ng-model="filterCorpus"
+                    ng-options="c for c in (corpora | orderBy)">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Limit</label>
+            <select ng-model="limit"
+                    ng-options="l for l in limits">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-refresh"> Refresh</span>
+        </button>
+    </form>
+</div>

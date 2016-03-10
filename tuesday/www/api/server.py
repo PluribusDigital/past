@@ -4,12 +4,13 @@ import api.endpoints as EP
 from flask import Flask, send_file
 from flask_restful import abort, Api
 
+APP_ROOT = '../app'
 API_ROOT = '/api/v1'
 KWARGS = {'prefix' : API_ROOT}
 
 dir = os.path.dirname(__file__)
 
-app = Flask(__name__, static_folder='../../app')
+app = Flask(__name__, static_folder=APP_ROOT)
 api = Api(app, prefix=API_ROOT)
 api.add_resource(EP.Root, '/')
 api.add_resource(EP.CorpusIndex, '/corpus')
@@ -35,7 +36,7 @@ api.add_resource(EP.Rank, '/rank/<words>', resource_class_kwargs=KWARGS)
 @app.route('/document')
 @app.route('/corpus')
 def toStart():
-    return send_file('../../app/index.html')
+    return send_file('{0}/index.html'.format(APP_ROOT))
 
 @app.route(API_ROOT + '/<path:path>')
 def handleBadApiPath(path):
@@ -43,14 +44,14 @@ def handleBadApiPath(path):
 
 @app.route('/<path:path>')
 def singlePageRoute(path):
-    fullPath = os.path.join(dir, '../../app', path)
+    fullPath = os.path.join(dir, APP_ROOT, path)
     if os.path.exists(fullPath):
         return send_file(fullPath)
-    return send_file('../../app/index.html')
+    return toStart()
 
 @app.route('/bower_components/<path:path>')
 def bower(path):
-    fullPath = os.path.join(dir, '../../bower_components', path)
+    fullPath = os.path.join(dir, '../bower_components', path)
     return send_file(fullPath)
 
 class Server(object):

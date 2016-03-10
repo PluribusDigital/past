@@ -1,0 +1,53 @@
+﻿<a class="btn btn-sm btn-link" target="_blank" href="{{model.path}}"><span class="h3">{{model.title}}</span></a>
+<hr />
+
+<div class="row">
+    <div class="dl-horizontal col-xs-6">
+        <dl>
+            <dt>Authors</dt>
+            <dd>{{model.authors}}</dd>
+        </dl>
+        <dl>
+            <dt>Date Created</dt>
+            <dd>{{model.createdAsDate}}</dd>
+        </dl>
+        <dl>
+            <dt>Scanned</dt>
+            <dd>{{model.scannedAsDate}}</dd>
+        </dl>
+    </div>
+    <div class="col-xs-6">
+        <div class="row">
+            <div class="h4 col-xs-12 col-sm-6">Corpora</div>
+            <div class="col-xs-11 col-sm-5">
+                <form name="formCorpus" ng-submit="addCorpus()" class="form-inline">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="newCorpus" placeholder="New Corpus...">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-success" 
+                                    ng-disabled="!formCorpus.$dirty">
+                                <span class="glyphicon glyphicon-plus">Add</span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div atom-entries entries="corpora" remove="removeCorpus(url)"></div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <span class="h4">Top 10 Keywords</span>
+        <a ng-href="{{keywordsUrl}}">&nbsp;<i>(more...)</i></a>
+        <div atom-entries entries="keywords" order-by="-score"></div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <span class="h4">Closest 10 Documents</span>
+        <a ng-href="{{closestUrl}}">&nbsp;<i>(more...)</i></a>
+        <div atom-entries entries="closest"></div>
+    </div>
+</div>

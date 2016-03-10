@@ -1,0 +1,22 @@
+﻿<div class="row" style="padding-top: 10px;">
+    <ol class="breadcrumb pull-left">
+        <li ng-repeat="node in breadcrumbs">
+            <a ng-href="{{node.link}}">{{node.name}}</a>
+        </li>
+        <li class="active">{{activeNode.name}}</li>
+    </ol>
+
+    <form name="form" ng-submit="refresh()" class="form-inline pull-right">
+        <div class="form-group">
+            <label>Limit</label>
+            <select ng-model="limit"
+                    ng-options="l for l in limits">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-refresh"> Refresh</span>
+        </button>
+    </form>
+</div>
+
+<div atom-entries entries="data"></div>
