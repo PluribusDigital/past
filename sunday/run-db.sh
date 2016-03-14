@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker run -it -p "5432:5432" \
+docker run -it -p "2345:5432" \
 -v "/var/lib/postgresql/sunday-data:/var/lib/postgresql/data" \
 --env-file /home/vagrant/.env \
 -e "POSTGRES_DB=sunday" \
