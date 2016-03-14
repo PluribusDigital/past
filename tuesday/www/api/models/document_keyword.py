@@ -26,6 +26,18 @@ class DocumentKeyword(object):
     # -------------------------------------------------------------------------
 
     def add(self, dockwGen):
+        template = "INSERT INTO dockw ({0}) VALUES ({1});"
+        sql = template.format(', '.join(self.allFields),
+                              ', '.join(['%({0})s'.format(x) 
+                                         for x in self.allFields]))
+        count = 0
+        with self.conn.cursor() as cur:
+            cur.executemany(sql, dockwGen)
+            count += cur.rowcount
+
+        return count
+
+
         row_templ = "('{0}', {1}, {2:.7f})"
         rows = [row_templ.format(x['lemma'].replace("'", "''"), 
                                  x['doc_id'], 

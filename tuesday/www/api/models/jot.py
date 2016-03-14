@@ -27,9 +27,8 @@ class Jot(object):
                                          for x in self.allFields]))
         count = 0
         with self.conn.cursor() as cur:
-            for jot in jotGen:
-                cur.execute(sql, jot)
-                count += cur.rowcount
+            cur.executemany(sql, jotGen)
+            count += cur.rowcount
 
         return count
 
