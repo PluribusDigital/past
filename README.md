@@ -17,16 +17,6 @@ Open `.env` in your favorite text editor and create entries for :
 + `POSTGRES_USER` = _someuser_
 + `POSTGRES_PASSWORD` = _somepassword_
 
-Download and extract seed files:
-
-+ `cd` _some temp directory_
-+ download [sunday-db-seed.zip](https://github.com/STSILABS/past/releases/download/v.0.1.0/sunday-db-seed.zip)
-+ extract to _path/to/past_`/sunday/db/`
-+ download [monday-www-source.zip](https://github.com/STSILABS/past/releases/download/v.0.1.0/monday-www-source.zip)
-+ extract to _path/to/past_`/monday/www/`
-+ download [tuesday-db-seed.zip](https://github.com/STSILABS/past/releases/download/v.0.1.0/tuesday-db-seed.zip)
-+ extract to _path/to/past_`/tuesday/db/`
-
 ## Execution
 ```shell
 vagrant up
