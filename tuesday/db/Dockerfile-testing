@@ -1,0 +1,6 @@
+FROM postgres
+WORKDIR /docker-entrypoint-initdb.d
+ADD . .
+WORKDIR /
+VOLUME /var/lib/postgresql/data
+EXPOSE 5432

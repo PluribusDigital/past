@@ -30,6 +30,7 @@ CREATE TABLE document
   lemmatizer character varying,
   stemmer character varying,
   syntaxer character varying,
+  type character varying(20),
   CONSTRAINT document_pkey PRIMARY KEY (id)
 );
 

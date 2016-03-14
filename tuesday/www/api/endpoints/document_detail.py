@@ -35,7 +35,8 @@ class DocumentDetail(Resource):
                 "path": path,
                 "dateCreated": doc['date_created'],
                 "title": title,
-                "authors": doc['authors']
+                "authors": doc['authors'], 
+                "type": doc['type']
                 }
 
     def put(self, id):

@@ -11,7 +11,7 @@ class Document(object):
         self.conn = connection
         self.dataFields = ['hash', 'path', 'date_created', 'title', 
                            'authors', 'tokenizer', 'tagger', 'lemmatizer', 
-                           'stemmer', 'syntaxer']
+                           'stemmer', 'syntaxer', 'type']
         self.allFields = ['id', 'scanned'] + self.dataFields
 
     # -------------------------------------------------------------------------

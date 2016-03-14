@@ -17,6 +17,7 @@ class Test_Document(unittest.TestCase):
                          'lemmatizer' : 'lem',
                          'stemmer' : 'stem',
                          'syntaxer' : 'syntax',
+                         'type': 'Patent'
                          }
         self.validateSql = "SELECT COUNT(*) FROM membership WHERE doc_id = %s;"
 
