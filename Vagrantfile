@@ -11,13 +11,23 @@ PORTS = %w(8080 8081 8082 2345 2346 5000)
 # Read options
 # ----------------------------------------------------------------------------- 
 opts = GetoptLong.new(
-        [ '--no-compose', GetoptLong::OPTIONAL_ARGUMENT ]
+        [ '--no-compose', GetoptLong::OPTIONAL_ARGUMENT ],
+        [ '--db-migrate', GetoptLong::OPTIONAL_ARGUMENT ],
+        [ '--clean', GetoptLong::OPTIONAL_ARGUMENT ],
 )
+
 run_compose = true
+db_migrate = false
+clean = false
+
 opts.each do |opt, arg|
  case opt
    when '--no-compose'
-    run_compose = false
+     run_compose = false
+   when '--db-migrate'
+     db_migrate = true
+   when '--clean'
+     clean = true
  end
 end
 
@@ -54,6 +64,14 @@ Vagrant.configure(2) do |config|
     curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
   	chmod +x /usr/local/bin/docker-compose
   EOC
+
+  if clean
+    config.vm.provision "shell", inline: "./clean.sh", run: "always"
+  end
+
+  if db_migrate
+    config.vm.provision "shell", inline: "rm -rf /var/lib/postgresql/", run: "always"
+  end
 
   if run_compose
     config.vm.provision "shell", inline: "docker-compose up -d", run: "always"

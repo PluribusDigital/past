@@ -4,8 +4,7 @@ ADD https://s3.amazonaws.com/stsi-past/tuesday-db-seed-2016-03-14.tar.gz \
 
 WORKDIR /docker-entrypoint-initdb.d
 
-ADD schema.sql .
-ADD seed.sql .
+ADD *.sql ./
 RUN ["tar", "-zxvf", "/var/tmp/source.tar.gz"]
 RUN ["rm", "-rf", "/var/tmp/"]
 
