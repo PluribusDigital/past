@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import io
 import os
 import sys
@@ -144,6 +144,12 @@ relPatent = {
                            'name_last', 'organization', 'country', 'sequence'],
              'patent': ['id', 'type', 'number', 'date', 'kind', 'abstract', 
                         'title'],
+             'usapplicationcitation': ['uuid', 'patent_id', 'application_id',
+                                       'date', 'kind', 'number', 'country',
+                                       'category', 'sequence'],
+             'uspatentcitation' : ['uuid', 'patent_id', 'citation_id', 'date',
+                                   'name', 'kind', 'country', 'category',
+                                   'sequence'],
              'uspc_current': ['uuid', 'patent_id', 'mainclass_id',
                               'subclass_id', 'sequence']
            }

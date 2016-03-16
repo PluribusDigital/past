@@ -22,6 +22,7 @@ class DocumentIndex(Resource):
             id = x['id']
 
             entry = {'title': title,
+                     'type': x['type'],
                      'source': x['path'],
                      'updated': x['scanned'].isoformat(),
                      'links': [{

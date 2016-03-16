@@ -56,6 +56,7 @@ class Test_DocumentCorpusIndex(unittest.TestCase):
                     'lemmatizer' : 'lem',
                     'stemmer' : 'stem',
                     'syntaxer' : 'syntax',
+                    'type': 'Patent'
                     }
         with DB.connection(**cls.connArgs) as conn:
             store = Document(conn)
