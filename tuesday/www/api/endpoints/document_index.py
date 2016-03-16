@@ -1,4 +1,5 @@
-﻿from flask import request
+﻿import sys, traceback
+from flask import request
 from flask_restful import Resource
 from flask_restful.reqparse import RequestParser
 from api import DB
@@ -63,8 +64,9 @@ class DocumentIndex(Resource):
 
     def parseArgs(self):
         parser = RequestParser()
-        parser.add_argument('limit', location='args', type=int, default=0)
+        parser.add_argument('limit', location='args', type=int, default=1000)
         parser.add_argument('offset', location='args', type=int, default=0)
+        parser.add_argument('filter', location='args', type=str, default='')
         args = parser.parse_args()
         return args
 
@@ -73,19 +75,26 @@ class DocumentIndex(Resource):
     # -------------------------------------------------------------------------
 
     def get(self):
-        args = self.parseArgs()
-        limit = args['limit']
-        start = args['offset']
-        end = start + limit
+        try:
+            args = self.parseArgs()
+            limit = args['limit']
+            start = args['offset']
+            filter = args['filter']
+            end = start + limit
 
-        with DB.connection() as connection:
-            store = Document(connection)
-            build = self.atomEntryBuilder(request.base_url)
-            if limit:
-                return [build(x) 
-                        for i,x in enumerate(store.getAll())
-                        if start <= i < end]
-            else:
-                return [build(x) 
-                        for i,x in enumerate(store.getAll())
-                        if start <= i]
+            with DB.connection() as connection:
+                store = Document(connection)
+                build = self.atomEntryBuilder(request.base_url)
+                fnGet = store.filter(filter) if filter else store.getAll()
+                if limit:
+                    return [build(x) 
+                            for i,x in enumerate(fnGet)
+                            if start <= i < end]
+                else:
+                    return [build(x) 
+                            for i,x in enumerate(fnGet)
+                            if start <= i]
+        except Exception:
+            sys.stderr.write('Failed\n')
+            for fncall in traceback.format_exception(*sys.exc_info()):
+                sys.stderr.write(fncall)

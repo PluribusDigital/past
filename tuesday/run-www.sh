@@ -2,17 +2,17 @@
 
 docker rmi $(docker images -f "dangling=true" -q)
 
-docker build -t stsilabs/past-tuesday-www ./www
+docker build -t stsilabs/past-tuesday-www /home/vagrant/tuesday/www
 
 docker run -d -p "5432:5432" \
---env-file ~/.env \
+--env-file /home/vagrant/.env \
 -e "POSTGRES_DB=tuesday" \
 -v "/var/lib/postgresql/tuesday-data:/var/lib/postgresql/data" \
 --name tuesday-db stsilabs/past-tuesday-db
 
 docker run -it -p "5000:5000" \
 --link tuesday-db:db  \
---env-file ~/.env \
+--env-file /home/vagrant/.env \
 -e "POSTGRES_DB=tuesday" \
 -e "POSTGRES_HOST=db" \
 -v "/home/vagrant/tuesday/www/app:/www/app" \

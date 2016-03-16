@@ -22,11 +22,21 @@ class TestDocumentIndex(unittest.TestCase):
                     'syntaxer' : 'syntax',
                     'type': 'Patent'
                     }
+        b = dict(document)
+        b['title'] = 'Delorean Time Machine'
+        b['authors'] = 'Brown, Doc; McFly, Marty Jr.'
+        b['path'] = '/patent/9898'
+
+        c = dict(document)
+        c['title'] = 'Railroad Time Machine'
+        c['authors'] = 'Brown, Doc; Brown, Clara'
+        c['path'] = '/patent/7676'
+
+        documents = [document, b, c]
         with DB.connection(**cls.connArgs) as conn:
             store = Document(conn)
-            for i in range(3):
-                document['title'] = str(i)
-                store.add(document)
+            for i, doc in enumerate(documents):
+                store.add(doc)
 
     def setUp(self):
         self.patcher = patch('api.endpoints.document_index.DB')
@@ -65,7 +75,7 @@ class TestDocumentIndex(unittest.TestCase):
 
         result = json.loads(rv.data.decode('utf-8'))
         self.assertEqual(1, len(result))
-        self.assertEqual('0', result[0]['title'])
+        self.assertEqual('The document', result[0]['title'])
 
     def test_get_offset(self):
         url = self.url + '?offset=1'
@@ -74,7 +84,7 @@ class TestDocumentIndex(unittest.TestCase):
 
         result = json.loads(rv.data.decode('utf-8'))
         self.assertEqual(2, len(result))
-        self.assertEqual('1', result[0]['title'])
+        self.assertEqual('Delorean Time Machine', result[0]['title'])
 
     def test_get_limit_offset(self):
         url = self.url + '?limit=1&offset=1'
@@ -83,7 +93,34 @@ class TestDocumentIndex(unittest.TestCase):
 
         result = json.loads(rv.data.decode('utf-8'))
         self.assertEqual(1, len(result))
-        self.assertEqual('1', result[0]['title'])
+        self.assertEqual('Delorean Time Machine', result[0]['title'])
+
+    def test_get_filter_title(self):
+        url = self.url + '?filter=delorean'
+        rv = self.target.get(url)
+        self.assertEqual(200, rv.status_code)
+
+        result = json.loads(rv.data.decode('utf-8'))
+        self.assertEqual(1, len(result))
+        self.assertEqual('Delorean Time Machine', result[0]['title'])
+
+    def test_get_filter_author(self):
+        url = self.url + '?filter=brown'
+        rv = self.target.get(url)
+        self.assertEqual(200, rv.status_code)
+
+        result = json.loads(rv.data.decode('utf-8'))
+        self.assertEqual(2, len(result))
+        self.assertEqual('Delorean Time Machine', result[0]['title'])
+
+    def test_get_filter_patent_number(self):
+        url = self.url + '?filter=9898'
+        rv = self.target.get(url)
+        self.assertEqual(200, rv.status_code)
+
+        result = json.loads(rv.data.decode('utf-8'))
+        self.assertEqual(1, len(result))
+        self.assertEqual('Delorean Time Machine', result[0]['title'])
 
     def test_delete(self):
         rv = self.target.delete(self.url)

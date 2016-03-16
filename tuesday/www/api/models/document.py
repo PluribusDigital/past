@@ -74,10 +74,8 @@ class Document(object):
 
         with self.conn.cursor() as cur:
             cur.execute(sql)
-            return [{x[0]:x[1] 
-                     for x in zip(self.allFields, record)}
-                     for record in cur 
-                    ]
+            for record in cur:
+                yield {x[0]:x[1] for x in zip(self.allFields, record)}
 
     def getMembersOf(self, corpus_id):
         template = """
@@ -129,6 +127,22 @@ class Document(object):
                      for x in zip(self.allFields, record)}
                      for record in cur 
                     ]
+
+    def filter(self, searchText):
+        if not searchText:
+            raise StopIteration
+
+        template = """
+        SELECT {0} FROM document 
+        WHERE title ILIKE %s OR authors ILIKE %s OR path LIKE %s
+        """
+        sql = template.format(', '.join(self.allFields))
+        params = [x.format(searchText) for x in ["%{0}%", "%{0}%", "%/{0}%"]]
+
+        with self.conn.cursor() as cur:
+            cur.execute(sql, params)
+            for record in cur:
+                yield {x[0]:x[1] for x in zip(self.allFields, record)}
 
     def add(self, doc, *corpora):
         template = "INSERT INTO document ({0}) VALUES ({1}) RETURNING ID;"
