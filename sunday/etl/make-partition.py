@@ -3,8 +3,10 @@ import io
 import os
 import sys
 import zipfile
+import multiprocessing as mp
 from collections import Counter
 from itertools import islice
+from functools import partial
 
 SOURCE_DIR = './source'
 PARTITION_DIR = './partitions'
@@ -67,8 +69,8 @@ cpcTopTen = {'H01L', 'Y10T', 'G06F', 'H04N', 'H04L',
 uspcTopTen = {'257', '428', '514', '435', '438', 
               '455', '370', '424', '348', '375'}
 
-def partitionFileName():
-    return os.path.join(PARTITION_DIR, 'partition.txt')
+def partitionFileName(fileName='partition.txt'):
+    return os.path.join(PARTITION_DIR, fileName)
 
 def generatePatentIds(keyField, values, fileName):
     ''' Builds a subset of patents that fall within particular categories and ranges
@@ -98,6 +100,10 @@ def loadPartition():
         for line in f:
             yield line.strip()
 
+    with open(partitionFileName('prior-art.txt'), 'r') as f:
+        for line in f:
+            yield line.strip()
+
 # -----------------------------------------------------------------------------
 # Seed-* methods
 # -----------------------------------------------------------------------------
@@ -107,7 +113,6 @@ def seedFileName(source):
     return path.join(SEED_DIR, 'seed-{0}.txt'.format(source.replace('_', '-')))
 
 def buildSeed(ids, source, fields, idField='patent_id'):
-    print(source, '...')
     encoding = 'utf8'
     fileName = seedFileName(source)
     
@@ -123,7 +128,7 @@ def buildSeed(ids, source, fields, idField='patent_id'):
             if row[idField] in ids:
                 writer.writerow(row)
             if i == HUNDREDK:
-                print('  ', j, 'x 100K')
+                print('  {0} {1} x 100K'.format(source, j))
                 i = 0
                 j += 1
 
@@ -144,9 +149,9 @@ relPatent = {
                            'name_last', 'organization', 'country', 'sequence'],
              'patent': ['id', 'type', 'number', 'date', 'kind', 'abstract', 
                         'title'],
-             'usapplicationcitation': ['uuid', 'patent_id', 'application_id',
-                                       'date', 'kind', 'number', 'country',
-                                       'category', 'sequence'],
+             #'usapplicationcitation': ['uuid', 'patent_id', 'application_id',
+             #                          'date', 'kind', 'number', 'country',
+             #                          'category', 'sequence'],
              'uspatentcitation' : ['uuid', 'patent_id', 'citation_id', 'date',
                                    'name', 'kind', 'country', 'category',
                                    'sequence'],
@@ -154,16 +159,24 @@ relPatent = {
                               'subclass_id', 'sequence']
            }
 
-def run():
+#-----------------------------------------------------------------------------
+# Main
+#-----------------------------------------------------------------------------
+
+def worker(ids, k):
+    if not os.path.exists(seedFileName(k)):
+        buildSeed(ids, k, relPatent[k], 
+                  'number' if k == 'patent' else 'patent_id')
+
+if __name__ == '__main__':
     if not os.path.exists(partitionFileName()):
         createPartition()
-        
+
+    # Fill the queue
     ids = {x for x in loadPartition()}
-    for k in sorted(relPatent):
-        if not os.path.exists(seedFileName(k)):
-            buildSeed(ids, k, relPatent[k], 
-                      'number' if k == 'patent' else 'patent_id')
 
-# -----------------------------------------------------------------------------
+    bind = partial(worker, ids)
 
-run()
+    # start 4 worker processes
+    with mp.Pool(processes=4) as pool:
+        pool.map(bind, sorted(relPatent))

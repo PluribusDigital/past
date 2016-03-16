@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker build -t stsilabs/past-sunday-www ./www
+docker build -t stsilabs/past-sunday-www /home/vagrant/sunday/www
 
 docker run -d -p "5432:5432" \
 -v "/var/lib/postgresql/sunday-data:/var/lib/postgresql/data" \
