@@ -1,11 +1,33 @@
-﻿<img src="app/spinner.gif" ng-show="loading" width="128" height="128" />
+﻿<div class="row" style="padding-top: 10px;">
+    <ol class="breadcrumb pull-left">
+        <li class="active">Documents</li>
+    </ol>
+
+    <form name="form" ng-submit="refresh()" class="form-inline pull-right">
+        <div class="form-group">
+            <label>Limit</label>
+            <select ng-model="limit"
+                    ng-options="l for l in limits">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-refresh"> Refresh</span>
+        </button>
+    </form>
+</div>
+
+<img src="app/spinner.gif" ng-show="loading" width="128" height="128" />
 
 <div ng-hide="loading">
-    <div ng-show="showNavigation">
+    <div>
         <div class="col-xs-12 col-sm-12 col-lg-4" style="margin: 5px 0; padding: 4px 0;">
-            <input type="text" ng-model="searchText" placeholder="Search" class="col-xs-10" />
+            <input type="text" 
+                ng-model="searchText" 
+                ng-model-options="{ debounce: 500 }"
+                placeholder="Search" 
+                class="col-xs-10" />
         </div>
-        <div class="col-xs-12 col-sm-8 col-lg-5">
+        <div class="col-xs-12 col-sm-8 col-lg-5" ng-show="showPagination">
             <div uib-pagination total-items="totalItems"
                 items-per-page="pageSize"
                 ng-model="currentPage"
@@ -33,11 +55,10 @@
                             <small ng-if="'-' + col['name'] === orderBy" class="glyphicon glyphicon-arrow-down"></small>
                         </div>
                     </th>
-                    <th ng-if="showRemove">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in (filtered | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
+                <tr ng-repeat="row in (model | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
                     <td ng-repeat="col in columns" ng-show="col['show']">
                         <span ng-if="col['name'] === 'title'">
                             <a href="{{row.view}}">
@@ -49,13 +70,9 @@
                         </span>
                         <span ng-if="col['name'] !== 'title'">{{row[col['name']]}}</span>
                     </td>
-                    <td ng-if="showRemove">
-                        <button class="btn btn-link" ng-click="remove({url:row.view})">
-                            <span class="glyphicon glyphicon-remove text-danger"></span>
-                        </button>
-                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+

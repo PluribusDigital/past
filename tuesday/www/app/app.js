@@ -14,6 +14,10 @@ app.config(function ($locationProvider, $routeProvider) {
        templateUrl: 'app/main/rank.html',
        controller: 'RankController'
    })
+   .when('/document', {
+       templateUrl: 'app/main/documentIndex.html',
+       controller: 'DocumentIndexController'
+   })
    .when('/document/:doc_id', {
        templateUrl: 'app/main/document.html',
        controller: 'DocumentController'
