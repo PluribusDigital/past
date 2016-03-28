@@ -24,7 +24,7 @@ def clamp(val, minv, maxv):
     return minv if val < minv else maxv if val > maxv else val
 
 def distance(v1, v2):
-    """ Calculates the Ochini coefficient between two vectors"""
+    """ Calculates the Ochiai coefficient between two vectors"""
 
     result = ZERO
     
