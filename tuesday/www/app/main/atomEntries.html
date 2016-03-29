@@ -38,8 +38,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="row in (filtered | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
-                    <td ng-repeat="col in columns" ng-show="col['show']">
-                        <span ng-if="col['name'] === 'title'">
+                    <td ng-repeat="col in columns" ng-show="col['show']" ng-switch="col['name']">
+                        <span ng-switch-when="title">
                             <a href="{{row.view}}">
                                 <span class="h4">{{row.title}}</span>
                             </a>
@@ -47,7 +47,22 @@
                             <small ng-repeat="link in row.links">&nbsp;<a ng-href="{{link.href}}">{{link.title}}</a>&nbsp;
                             </small>
                         </span>
-                        <span ng-if="col['name'] !== 'title'">{{row[col['name']]}}</span>
+                        <span ng-switch-when="distance">
+                            <span>{{row['distance'] * 100  | number:2}}%</span>
+                            <small ng-if="row['distance'] > 0.15" class="glyphicon glyphicon-star"></small>
+                            <small ng-if="row['distance'] > 0.3" class="glyphicon glyphicon-star"></small>
+                            <small ng-if="row['distance'] > 0.45" class="glyphicon glyphicon-star"></small>
+                        </span>
+                        <span ng-switch-when="token">
+                            <a ng-href="rank/{{row['token']}}?field=token">{{row['token']}}</a>
+                        </span>
+                        <span ng-switch-when="lemma">
+                            <a ng-href="rank/{{row['lemma']}}?field=lemma">{{row['lemma']}}</a>
+                        </span>
+                        <span ng-switch-when="stem">
+                            <a ng-href="rank/{{row['stem']}}?field=stem">{{row['stem']}}</a>
+                        </span>
+                        <span ng-switch-default>{{row[col['name']]}}</span>
                     </td>
                     <td ng-if="showRemove">
                         <button class="btn btn-link" ng-click="remove({url:row.view})">

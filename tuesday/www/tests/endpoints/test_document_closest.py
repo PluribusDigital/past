@@ -57,16 +57,16 @@ class TestDocumentClosest(unittest.TestCase):
 
     def test_distancev1v2(self):
         result = distance(self.v1, self.v2)
-        self.assertAlmostEqual(Decimal('0.96701061'), result)
+        self.assertAlmostEqual(Decimal('0.03305094'), result)
 
     def test_distancev1v1(self):
         result = distance(self.v1, self.v1)
-        self.assertEqual(0, result)
+        self.assertEqual(Decimal('1'), result)
 
     def test_distanceInfinite(self):
         v3 = {'infinite': Decimal('inf')}
         result = distance(self.v1, v3)
-        self.assertAlmostEqual(Decimal('1.0000637'), result)
+        self.assertAlmostEqual(0, result)
 
     @unittest.skip('Used for debugging')
     @patch('api.endpoints.document_closest.DB')

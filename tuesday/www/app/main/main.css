@@ -6,3 +6,8 @@
   font-size: x-large;
   background-color: #fff;
 }
+
+.glyphicon-none:before {
+    content: "\2212";
+    color: transparent !important;
+}

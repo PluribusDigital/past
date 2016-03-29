@@ -16,7 +16,7 @@ docker run -it -p "5000:5000" \
 -e "POSTGRES_DB=tuesday" \
 -e "POSTGRES_HOST=db" \
 -v "/home/vagrant/tuesday/www:/www" \
---name tuesday-www stsilabs/past-tuesday-www python -B -m pytest --maxfail=10 -s ./tests/test_sandbox.py
+--name tuesday-www stsilabs/past-tuesday-www python -B -m pytest --maxfail=10 -s
 
 docker stop tuesday-db && docker rm tuesday-db
 docker stop tuesday-www && docker rm tuesday-www

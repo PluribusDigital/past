@@ -11,10 +11,9 @@ from api import DB
 from api.models import Document, DocumentKeyword
 from api.endpoints import DocumentIndex
 
-PLACES = Decimal('0.0001')
 ZERO = Decimal(0)
-DISTANCE_THRESH = Decimal(acos(ZERO)) - PLACES
-MINIMUM_TFIDF = Decimal(1)
+MINIMUM_TFIDF = Decimal(.1)
+PI = Decimal('3.14159265358979')
 
 # NOT THREAD SAFE
 lastCached = None
@@ -47,7 +46,7 @@ def distance(v1, v2):
     denom = lengthV1.sqrt() * lengthV2.sqrt()
     x = dot/denom if denom > ZERO else ZERO
     bounded_x = clamp(x, Decimal(-1), Decimal(1))
-    return Decimal(acos(bounded_x)) / DISTANCE_THRESH
+    return 1 - (Decimal(2 * acos(bounded_x)) / PI)
 
 class DocumentClosest(Resource):
     """ Return the list of documents 'closest' to the relevant document"""
@@ -132,7 +131,7 @@ class DocumentClosest(Resource):
                 if j != id:
                     dist[j] = distance(vectors[id], vectors[j])
 
-            gen = sorted(dist.items(), key=itemgetter(1))
+            gen = sorted(dist.items(), key=itemgetter(1), reverse=True)
             build = DocumentIndex.atomEntryBuilder(url)
             results = []
 

@@ -2,7 +2,7 @@
     $scope.filtered = $scope.model = []
     $scope.columns = [
         { 'name': 'score', 'title': 'Score', 'show': true, 'type': 'float' },
-        { 'name': 'distance', 'title': 'Distance', 'show': true, 'type': 'float' },
+        { 'name': 'distance', 'title': 'Match', 'show': true, 'type': 'float' },
         { 'name': 'title', 'title': 'Title', 'show': true, 'type': 'string' },
         { 'name': 'summary', 'title': 'Description', 'show': true, 'type': 'string' },
         { 'name': 'author', 'title': 'Author(s)', 'show': true, 'type': 'string' },
@@ -68,7 +68,10 @@
 
         angular.forEach($scope.columns, function (column) {
             if ($scope.orderBy == undefined && column.show) {
-                $scope.orderBy = column.name;
+                if (column.name == 'score' || column.name == 'distance')
+                    $scope.orderBy = '-' + column.name;
+                else
+                    $scope.orderBy = column.name;
             }
         });
 

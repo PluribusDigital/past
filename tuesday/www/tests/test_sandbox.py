@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 import sys
 import json
 import csv
@@ -52,6 +52,7 @@ closest = {
     '9088693': '8970655'
 }
 
+@unittest.skip("Not acutally a unit test")
 class Test_Sandbox(unittest.TestCase):
     def setUp(self):
         self.connection = DB.connection(**dbConnectionInfo)

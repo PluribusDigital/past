@@ -40,12 +40,12 @@
 <hr />
 
 <div class="row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-4">
         <span class="h4">Top 10 Keywords</span>
         <a ng-href="{{keywordsUrl}}">&nbsp;<i>(more...)</i></a>
-        <div atom-entries entries="keywords" order-by="-score"></div>
+        <div atom-entries entries="keywords"></div>
     </div>
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-8">
         <span class="h4">Closest 10 Documents</span>
         <a ng-href="{{closestUrl}}">&nbsp;<i>(more...)</i></a>
         <div atom-entries entries="closest"></div>
