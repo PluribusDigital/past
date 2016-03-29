@@ -3,6 +3,7 @@
     $scope.columns = [
         { 'name': 'score', 'title': 'Score', 'show': true, 'type': 'float' },
         { 'name': 'distance', 'title': 'Match', 'show': true, 'type': 'float' },
+        { 'name': 'common', 'title': 'Key Matches', 'show': true, 'type': 'array' },
         { 'name': 'title', 'title': 'Title', 'show': true, 'type': 'string' },
         { 'name': 'summary', 'title': 'Description', 'show': true, 'type': 'string' },
         { 'name': 'author', 'title': 'Author(s)', 'show': true, 'type': 'string' },

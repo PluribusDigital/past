@@ -13,6 +13,7 @@ from api.endpoints import DocumentIndex
 
 ZERO = Decimal(0)
 MINIMUM_TFIDF = Decimal(.1)
+MINIMUM_IMPORTANT = Decimal(1)
 PI = Decimal('3.14159265358979')
 
 # NOT THREAD SAFE
@@ -47,6 +48,11 @@ def distance(v1, v2):
     x = dot/denom if denom > ZERO else ZERO
     bounded_x = clamp(x, Decimal(-1), Decimal(1))
     return 1 - (Decimal(2 * acos(bounded_x)) / PI)
+
+def importantMatches(v1, v2):
+    a = {w for w in v1 if v1[w] > MINIMUM_IMPORTANT}
+    b = {w for w in v2 if v2[w] > MINIMUM_IMPORTANT}
+    return list(sorted(a & b))
 
 class DocumentClosest(Resource):
     """ Return the list of documents 'closest' to the relevant document"""
@@ -140,5 +146,7 @@ class DocumentClosest(Resource):
                 if i < limit and pair[1] < 1.0:
                     entry = build(store.get(pair[0]))
                     entry['distance'] = "{:.3f}".format(pair[1])
+                    entry['common'] = importantMatches(vectors[id], 
+                                                       vectors[pair[0]])
                     results.append(entry)
             return results
