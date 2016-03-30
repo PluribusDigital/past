@@ -4,7 +4,7 @@ from decimal import *
 from flask_restful import Resource
 from flask_restful.reqparse import RequestParser
 from api import DB
-from api.tfidf import Tf_Idf
+from api.tfidf import Tf_Idf, EXCLUSIONS
 
 PLACES = Decimal('0.0001')
 
@@ -14,6 +14,9 @@ def projection(x):
     x['score'] = score
     del x['tfidf']
     return x
+
+def allow(x):
+    return (x['lemma'] not in EXCLUSIONS) if 'lemma' in x else True
 
 class Keyword(Resource):
     """The endpoint for determining the keywords in a document or corpus"""
@@ -59,7 +62,7 @@ class Keyword(Resource):
             calc = Tf_Idf(connection)
             gen = calc.keywords(fields, doc_id, limit, corpus_id)
             results = [projection(row) 
-                       for i, row in enumerate(gen)
+                       for i, row in enumerate(filter(allow, gen))
                        if i < limit]
         
         return results, 200 if results else 404

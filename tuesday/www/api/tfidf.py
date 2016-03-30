@@ -7,6 +7,9 @@ from operator import itemgetter
 from functools import partial
 from collections import defaultdict
 
+EXCLUSIONS = {'wherein', 'plurality', 'configure', 'thereof', 'comprise',
+             'andwherein'}
+
 class Tf_Idf(object):
     """ Calculates the Term Freqency-Inverse Document Frequency vector
     To help with naming inside this module:
@@ -335,3 +338,23 @@ class Tf_Idf(object):
                 break
             doc_id, tfidf = row
             yield {'doc_id': doc_id, 'tfidf': tfidf, 'count':countByDoc[doc_id] }
+
+'''
+Use this query to determine the `EXCLUSIONS`
+
+SELECT b.lemma, max(a.dc) / cast(sum(b.doc_count) as float) as boost
+FROM (
+        SELECT lemma, count(DISTINCT doc_id) as dc
+        FROM jot
+        WHERE doc_id IN (SELECT DISTINCT doc_id 
+                         FROM membership 
+                         WHERE corpus_id = 2)
+	  AND pos NOT IN ('ADP', 'AUX', 'CONJ', 'DET', 'PART', 'PRON', 'PUNCT')
+        GROUP BY lemma
+	order by dc desc
+	limit 100
+) as a
+INNER JOIN tally as b ON b.lemma = a.lemma
+GROUP BY b.lemma
+ORDER BY boost desc
+'''

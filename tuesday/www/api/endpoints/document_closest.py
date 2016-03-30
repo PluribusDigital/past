@@ -7,7 +7,7 @@ from urllib.parse import *
 from flask import request
 from flask_restful import abort, Resource
 from flask_restful.reqparse import RequestParser
-from api import DB
+from api import DB, tfidf
 from api.models import Document, DocumentKeyword
 from api.endpoints import DocumentIndex
 
@@ -89,7 +89,7 @@ class DocumentClosest(Resource):
         weighted = DocumentKeyword(connection)
         for r in weighted.get_all_raw():
             value = Decimal(r[2])
-            if value > MINIMUM_TFIDF:
+            if value > MINIMUM_TFIDF and r[0] not in tfidf.EXCLUSIONS:
                 vectors[r[1]][r[0]] = Decimal(r[2]) 
 
     def elapsed(self, message):
