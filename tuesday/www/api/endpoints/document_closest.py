@@ -16,6 +16,8 @@ MINIMUM_TFIDF = Decimal(.1)
 MINIMUM_IMPORTANT = Decimal(1)
 PI = Decimal('3.14159265358979')
 
+DECIMAL_FORMAT = float
+
 # NOT THREAD SAFE
 lastCached = None
 vectors = {}
@@ -49,10 +51,16 @@ def distance(v1, v2):
     bounded_x = clamp(x, Decimal(-1), Decimal(1))
     return 1 - (Decimal(2 * acos(bounded_x)) / PI)
 
-def importantMatches(v1, v2):
+def importantMatches(id, match):
+    global vectors
+    v1 = vectors[id]
+    v2 = vectors[match]
+
     a = {w for w in v1 if v1[w] > MINIMUM_IMPORTANT}
     b = {w for w in v2 if v2[w] > MINIMUM_IMPORTANT}
-    return list(sorted(a & b))
+    return {w: 
+            {id: DECIMAL_FORMAT(v1[w]), match: DECIMAL_FORMAT(v2[w]) } 
+            for w in sorted(a & b)}
 
 class DocumentClosest(Resource):
     """ Return the list of documents 'closest' to the relevant document"""
@@ -145,8 +153,8 @@ class DocumentClosest(Resource):
             for i, pair in enumerate(gen):
                 if i < limit and pair[1] < 1.0:
                     entry = build(store.get(pair[0]))
-                    entry['distance'] = "{:.3f}".format(pair[1])
-                    entry['common'] = importantMatches(vectors[id], 
-                                                       vectors[pair[0]])
+                    entry['id'] = pair[0]
+                    entry['distance'] = DECIMAL_FORMAT(pair[1])
+                    entry['scores'] = importantMatches(id, pair[0])
                     results.append(entry)
             return results

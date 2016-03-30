@@ -8,7 +8,7 @@ from functools import partial
 from collections import defaultdict
 
 EXCLUSIONS = {'wherein', 'plurality', 'configure', 'thereof', 'comprise',
-             'andwherein'}
+             'andwherein', 'claim'}
 
 class Tf_Idf(object):
     """ Calculates the Term Freqency-Inverse Document Frequency vector

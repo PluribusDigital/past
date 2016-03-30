@@ -1,7 +1,8 @@
 ﻿<a class="btn btn-sm btn-link" target="_blank" href="{{model.path}}"><span class="h3">{{model.title}}</span></a>
-<hr />
+<button type="button" ng-hide="hideExtraDetails" class="btn btn-link" ng-click="hideExtraDetails = !hideExtraDetails"><i>(less...)</i></button>	
+<button type="button" ng-show="hideExtraDetails" class="btn btn-link" ng-click="hideExtraDetails = !hideExtraDetails"><i>(more...)</i></button>	
 
-<div class="row">
+<div uib-collapse="hideExtraDetails" class="row">
     <div class="dl-horizontal col-xs-6">
         <dl>
             <dt>Authors</dt>
@@ -17,37 +18,47 @@
         </dl>
     </div>
     <div class="col-xs-6">
-        <div class="row">
-            <div class="h4 col-xs-12 col-sm-6">Corpora</div>
-            <div class="col-xs-11 col-sm-5">
-                <form name="formCorpus" ng-submit="addCorpus()" class="form-inline">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" ng-model="newCorpus" placeholder="New Corpus...">
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-success" 
-                                    ng-disabled="!formCorpus.$dirty">
-                                <span class="glyphicon glyphicon-plus">Add</span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div atom-entries entries="corpora" remove="removeCorpus(url)"></div>
+        <a ng-href="{{keywordsUrl}}">Top 20 Keywords</a>
     </div>
 </div>
 
 <hr />
 
-<div class="row">
-    <div class="col-xs-12 col-sm-4">
-        <span class="h4">Top 10 Keywords</span>
-        <a ng-href="{{keywordsUrl}}">&nbsp;<i>(more...)</i></a>
-        <div atom-entries entries="keywords"></div>
-    </div>
-    <div class="col-xs-12 col-sm-8">
-        <span class="h4">Closest 10 Documents</span>
-        <a ng-href="{{closestUrl}}">&nbsp;<i>(more...)</i></a>
-        <div atom-entries entries="closest"></div>
-    </div>
+<span class="h4">Closest 10 Documents</span>
+<img src="app/spinner.gif" ng-show="loading" width="128" height="128" />
+
+<div class="row" ng-hide="loading">
+    <table class="table table-condensed" style="overflow: auto;" >
+        <thead>
+            <tr>
+                <th>Rating</th>
+                <th>Title</th>
+                <th ng-repeat="col in columns"" class="rotate">
+                    <div ng-click="setOrder(col['name'])">
+                        <span>{{ col }}</span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in closest">
+                <td>
+                    <span>{{row['distance'] * 100  | number:2}}%</span>
+                    <small ng-if="row['distance'] > 0.15" class="glyphicon glyphicon-star"></small>
+                    <small ng-if="row['distance'] > 0.3" class="glyphicon glyphicon-star"></small>
+                    <small ng-if="row['distance'] > 0.45" class="glyphicon glyphicon-star"></small>
+                </td>
+                <td>
+                    <a href="{{row.view}}">
+                        <span>{{row.title}}</span>
+                    </a>
+                </td>
+                <td ng-repeat="col in columns" style="border-right: 1px solid #ccc;">
+                    <small ng-if="keywords[col][row.id] > 0.1" class="glyphicon glyphicon-star"></small>
+<!--                    <small ng-if="keywords[col][row.id] > 1" class="glyphicon glyphicon-star"></small>
+                    <small ng-if="keywords[col][row.id] > 10" class="glyphicon glyphicon-star"></small>-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

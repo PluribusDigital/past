@@ -6,10 +6,11 @@
 
     $scope.model = {};
     $scope.keywords = [];
-    $scope.corpora = [];
     $scope.closest = [];
+    $scope.columns = [];
 
-    $scope.newCorpus = "";
+    $scope.hideExtraDetails = true;
+    $scope.loading = true;
 
     /************************************************************************************************
     * Data Model Methods
@@ -26,92 +27,72 @@
         $scope.model.scannedAsDate = new Date($scope.model.scanned).toLocaleString();
         $scope.model.createdAsDate = new Date($scope.model.dateCreated).toLocaleString();
 
-        $scope.loadCorpora();
         $scope.request($scope.apiUrl + '/keywords', $scope.onKeywordsLoaded);
-        $scope.request($scope.apiUrl + '/closest', $scope.onClosestLoaded);
     }
 
     $scope.onKeywordsLoaded = function (data) {
-        $scope.keywords = data;
-        if ($scope.keywords == null) {
-            $scope.keywords = [];
-            return;
-        }
-    }
+        $scope.request($scope.apiUrl + '/closest', $scope.onClosestLoaded);
 
-    $scope.onCorpusLoaded = function (data) {
-        $scope.corpora = data;
-        if ($scope.corpora == null) {
-            $scope.corpora = [];
-            return;
-        }
+        $scope.keywords = {};
+        data.forEach(function (e) {
+            $scope.keywords[e.lemma] = {};
+            $scope.keywords[e.lemma][$scope.doc_id] = e.score;
+        });
     }
-
 
     $scope.onClosestLoaded = function (data) {
         $scope.closest = data;
         if ($scope.closest == null) {
             $scope.closest = [];
-            return;
         }
+
+        data.forEach(function (doc) {
+            Object.keys(doc.scores).forEach(function (w) {
+                var scores = doc.scores[w]
+
+                if (!(w in $scope.keywords)) {
+                    $scope.keywords[w] = {};
+                    $scope.keywords[w][$scope.doc_id] = scores[$scope.doc_id];
+                }
+
+                Object.keys(scores).forEach(function (id) {
+                    if (id != $scope.doc_id)
+                        $scope.keywords[w][id] = scores[id];
+                });
+            });
+
+            if ("links" in doc) {
+                // Pop the 'View/Edit' link as the primary
+                var elem = doc["links"].shift();
+                doc["view"] = elem.href.replace('/api/v1/', '/');
+
+                // Fix the urls
+                angular.forEach(doc["links"], function (link) {
+                    link.href = link.href.replace('/api/v1/', '/');
+                });
+            }
+        });
+
+        var cols = Object.keys($scope.keywords)
+        cols.sort(function (a, b) {
+            var av = $scope.keywords[a][$scope.doc_id];
+            var bv = $scope.keywords[b][$scope.doc_id];
+            if (av > bv) {
+                return -1; // reverse sort
+            }
+            if (av < bv) {
+                return 1; // reverse sort
+            }
+            return 0;
+        });
+
+        $scope.columns = cols;
+        $scope.loading = false;
     }
 
     /************************************************************************************************
-    * Actions
-    */
-
-    $scope.addCorpus = function () {
-        var value = $scope.newCorpus.toLowerCase();
-        $scope.newCorpus = "";
-
-        if (value == "") {
-            alert('Must specify a value!');
-            return;
-        }
-
-        var matched = false;
-        angular.forEach($scope.corpora, function (corpus) {
-            if (corpus.title == value) {
-                matched = true;
-            }
-        });
-        if (matched) {
-            alert('Already associated with ' + value);
-            return;
-        }
-
-        var u = $scope.apiUrl + '/corpus';
-        $http.post(u, {"name": value})
-        .then(function (response) {
-            $scope.loadCorpora()
-        }, function (response) {
-            alert(response.status)
-        });
-    };
-
-    $scope.removeCorpus = function (url) {
-        parts = url.split("/")
-        id = parts[parts.length - 1];
-
-        var title = id;
-        angular.forEach($scope.corpora, function (corpus) {
-            if (corpus.links[0].href.indexOf(url) != -1) {
-                title = corpus.title;
-            }
-        });
-
-        var answer = confirm("Remove the association to corpus '" + title + "'?\nThe corpus itself will not be deleted.");
-        if (!answer)
-            return;
-
-        var u = $scope.apiUrl + '/corpus/' + id;
-        $http.delete(u)
-            .then(function (response) {
-                $scope.loadCorpora()
-            }, function (response) {
-                alert(response.status)
-            });
-    };
+     * Actions
+     */
 
     /************************************************************************************************
      * Methods
@@ -130,10 +111,6 @@
                 alert(response.status)
             });
     }
-
-    $scope.loadCorpora = function () {
-        $scope.request($scope.apiUrl + '/corpus', $scope.onCorpusLoaded);
-    };
 
     /************************************************************************************************
      * Initialization
