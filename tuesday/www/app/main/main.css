@@ -12,21 +12,34 @@
     color: transparent !important;
 }
 
+/*
+    Closest document table 
+ */
+
+table.closest {
+  overflow: auto;
+}
+
 th.rotate {
   /* Something you can count on */
-  height: 140px;
+  /* height: 100px; */
   white-space: nowrap;
 }
 
-th.rotate > div {
+th.rotate div {
   transform: 
     /* Magic Numbers */
-    translate(23px, -5px)
+    translate(0px, -5px)
     /* 45 is really 360 - 45 */
     rotate(315deg);
   width: 30px;
 }
-th.rotate > div > span {
-  border-bottom: 1px solid #ccc;
-  padding: 5px 10px;
+
+table.closest td {
+  border-right: 1px solid #ccc;
+}
+
+table.closest td.center {
+  text-align: center;
+  vertical-align: middle;
 }

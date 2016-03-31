@@ -24,39 +24,53 @@
 
 <hr />
 
-<span class="h4">Closest 10 Documents</span>
-<img src="app/spinner.gif" ng-show="loading" width="128" height="128" />
+<span class="h4">Closest {{closestLimit}} Documents</span>
 
+<div class="row" ng-show="loading">
+    <img src="app/spinner.gif" width="128" height="128" />
+</div>
 <div class="row" ng-hide="loading">
-    <table class="table table-condensed" style="overflow: auto;" >
+    <table class="table table-condensed closest">
         <thead>
             <tr>
-                <th>Rating</th>
-                <th>Title</th>
+                <th colspan="3"></th>
                 <th ng-repeat="col in columns"" class="rotate">
                     <div ng-click="setOrder(col['name'])">
-                        <span>{{ col }}</span>
+                        <a ng-href="rank/{{col}}?field=lemma">{{ col }}</a>
                     </div>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="row in closest">
+            <tr>
+                <td colspan="2"><b>Rating</b></td>
                 <td>
-                    <span>{{row['distance'] * 100  | number:2}}%</span>
+                    <b>Title</b>
+                    <span class="pull-right">
+                        <i>this document</i>
+                        <small class="glyphicon glyphicon-arrow-right"></small>
+                    </span>
+                </td>
+                <td ng-repeat="col in columns" class="center">
+                    <small class="glyphicon" title="{{keywords[col][doc_id]}}" ng-class="::chooseScoreIcon(keywords[col][doc_id])"></small>
+                </td>
+            </tr>
+            <tr ng-repeat="row in closest">
+                <td class="center">
                     <small ng-if="row['distance'] > 0.15" class="glyphicon glyphicon-star"></small>
                     <small ng-if="row['distance'] > 0.3" class="glyphicon glyphicon-star"></small>
                     <small ng-if="row['distance'] > 0.45" class="glyphicon glyphicon-star"></small>
+                </td>
+                <td>
+                    <span>{{row['distance'] * 100  | number:2}}%</span>
                 </td>
                 <td>
                     <a href="{{row.view}}">
                         <span>{{row.title}}</span>
                     </a>
                 </td>
-                <td ng-repeat="col in columns" style="border-right: 1px solid #ccc;">
-                    <small ng-if="keywords[col][row.id] > 0.1" class="glyphicon glyphicon-star"></small>
-<!--                    <small ng-if="keywords[col][row.id] > 1" class="glyphicon glyphicon-star"></small>
-                    <small ng-if="keywords[col][row.id] > 10" class="glyphicon glyphicon-star"></small>-->
+                <td ng-repeat="col in columns" class="center">
+                    <small class="glyphicon" title="{{keywords[col][row.id]}}" ng-class="::chooseScoreIcon(keywords[col][row.id])"></small>
                 </td>
             </tr>
         </tbody>

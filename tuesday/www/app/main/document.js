@@ -12,6 +12,8 @@
     $scope.hideExtraDetails = true;
     $scope.loading = true;
 
+    $scope.closestLimit = 20;
+
     /************************************************************************************************
     * Data Model Methods
     */
@@ -31,7 +33,7 @@
     }
 
     $scope.onKeywordsLoaded = function (data) {
-        $scope.request($scope.apiUrl + '/closest', $scope.onClosestLoaded);
+        $scope.request($scope.apiUrl + '/closest?limit=' + $scope.closestLimit, $scope.onClosestLoaded);
 
         $scope.keywords = {};
         data.forEach(function (e) {
@@ -91,8 +93,21 @@
     }
 
     /************************************************************************************************
-     * Actions
+     * Conditional Styles
      */
+
+    $scope.chooseScoreIcon = function (value) {
+        if( value >= 10 )
+            return "glyphicon-certificate";
+
+        if (value >= 5)
+            return "glyphicon-star";
+
+        if (value >= 1)
+            return "glyphicon-star-empty";
+
+        return "";
+    }
 
     /************************************************************************************************
      * Methods
