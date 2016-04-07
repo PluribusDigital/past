@@ -1,4 +1,5 @@
-﻿from nltk.tag import StanfordPOSTagger
+﻿import sys
+from nlp.jot import JavaBridge
 
 # -----------------------------------------------------------------------------
 # Single Tuple Processing Functions
@@ -39,7 +40,7 @@ class CompoundTagger(object):
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        self.taggerA = StanfordPOSTagger('english-left3words-distsim.tagger')
+        self.taggerA = JavaBridge('english-left3words-distsim.tagger', verbose=True)
         #self.taggerB = StanfordPOSTagger('english-bidirectional-distsim.tagger',
         #                                 java_options='-mx3000m')
 

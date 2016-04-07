@@ -23,18 +23,25 @@ class Root(Resource):
         return 'Usage: POST ' + request.base_url + '\n<text to process>'
 
     def post(self):
-        """Adds a new name set to the list
-        Returns the new id and a link record
         """
-        s = self.parse(request.data)
-        if not s:
-            abort(400, message="You must supply some text")
+        Processes a block of text into the PAST format
+        """
+        import sys, traceback
 
-        jotter = Jotter.build()
-        reader = Reader(s)
+        try:
+            s = self.parse(request.data)
+            if not s:
+                abort(400, message="You must supply some text")
 
-        result = [x for x in jotter.run(reader, 0)]
+            jotter = Jotter.build()
+            reader = Reader(s)
 
-        # build the clusters
-        return result, 201
+            result = [x for x in jotter.run(reader, 0)]
 
+            # build the clusters
+            return result, 201
+        except Exception as e:
+            for fncall in traceback.format_exception(*sys.exc_info()):
+                sys.stderr.write('{0}\n'.format(fncall))
+                sys.stderr.flush()
+            raise e

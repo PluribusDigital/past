@@ -16,8 +16,9 @@ RUN pip install -r requirements.txt
 RUN python -m nltk.downloader book
 RUN python -m nltk.downloader snowball_data
 
-ADD https://s3.amazonaws.com/stsi-past/monday-www-source.tar.gz /var/tmp/
-RUN ["tar", "-zxvf", "/var/tmp/monday-www-source.tar.gz"]
+#ADD https://s3.amazonaws.com/stsi-past/monday-www-source.tar.gz /var/tmp/
+#RUN ["tar", "-zxvf", "/var/tmp/monday-www-source.tar.gz"]
+ADD ./source/postagger /source/postagger
 ENV CLASSPATH "/source/postagger"
 ENV STANFORD_MODELS "/source/postagger/models"
 
