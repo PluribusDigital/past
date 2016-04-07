@@ -21,7 +21,12 @@ RUN ["tar", "-zxvf", "/var/tmp/monday-www-source.tar.gz"]
 ENV CLASSPATH "/source/postagger"
 ENV STANFORD_MODELS "/source/postagger/models"
 
-ADD ./root /www
-WORKDIR /www
+WORKDIR /usr/src
 
-CMD ["python", "__main__.py"]
+ADD ./nlp ./nlp
+ADD setup.py ./
+
+RUN python setup.py develop
+
+EXPOSE 5000
+CMD ["python", "-m", "nlp"]

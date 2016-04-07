@@ -1,10 +1,10 @@
-import sys
+﻿import sys
 import nltk
 import unicodedata
 from nltk.stem.snowball import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
-from jot import Morphology, XRay, CompoundTagger
+from nlp.jot import Morphology, XRay, CompoundTagger
 
 def buildTranslateTable():
     ''' Creates the default table for replacing accented and non-english \

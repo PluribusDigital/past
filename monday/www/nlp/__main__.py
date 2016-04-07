@@ -1,5 +1,5 @@
 ﻿import sys
-from endpoints import *
+from nlp.endpoints import Root
 from flask import Flask
 from flask_restful import Api
 

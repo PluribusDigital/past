@@ -1,4 +1,4 @@
-import jot
+﻿from nlp.jot import Jotter
 from flask import request, abort
 from flask_restful import Resource
 
@@ -30,7 +30,7 @@ class Root(Resource):
         if not s:
             abort(400, message="You must supply some text")
 
-        jotter = jot.Jotter.build()
+        jotter = Jotter.build()
         reader = Reader(s)
 
         result = [x for x in jotter.run(reader, 0)]
