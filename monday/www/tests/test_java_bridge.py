@@ -1,13 +1,10 @@
 ﻿import unittest
 import json
 import sys
-from nlp.jot import JavaBridge
-from nltk.tag import StanfordPOSTagger
+from nlp.jot import JavaBridge, CompoundTagger
 
 class Test_JavaBridge(unittest.TestCase):
     def setUp(self):
-        self.target = JavaBridge('english-left3words-distsim.tagger', java_options='-verbose:class')
-
         self.sents = [
             'Call me Ishmael .'.split(),
             'Some years ago - never mind how long precisely - having little or no money in my purse , and nothing particular to interest me on shore , I thought I would sail about a little and see the watery part of the world .'.split(),
@@ -35,11 +32,22 @@ class Test_JavaBridge(unittest.TestCase):
     # Test Methods
     # -------------------------------------------------------------------------
 
-    def test_installation(self):
-        actual = self.target.tag_sents(self.sents)
-        #for i, s in enumerate(actual):
-        #    sys.stdout.write('{0}: {1}\n'.format(i, s))
-        self.assertEqual(13-1, len(actual))
+    def test_taggerA(self):
+        target = JavaBridge('english-left3words-distsim.tagger')
+        actual = target.tag_sents(self.sents)
+        self.assertEqual(13, len(actual))
+
+    def test_taggerB(self):
+        target = JavaBridge('english-bidirectional-distsim.tagger')
+        actual = target.tag_sents(self.sents)
+        self.assertEqual(13, len(actual))
+
+    def test_taggerC(self):
+        target = CompoundTagger()
+        actual = target(self.sents)
+        for i,x in enumerate(actual):
+            print(i, x)
+        self.assertEqual(13, len(actual))
 
 if __name__ == '__main__':
     unittest.main()

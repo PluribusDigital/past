@@ -40,28 +40,27 @@ class CompoundTagger(object):
     # -------------------------------------------------------------------------
 
     def __init__(self):
-        self.taggerA = JavaBridge('english-left3words-distsim.tagger', verbose=True)
-        #self.taggerB = StanfordPOSTagger('english-bidirectional-distsim.tagger',
-        #                                 java_options='-mx3000m')
+        self.taggerA = JavaBridge('english-left3words-distsim.tagger')
+        self.taggerB = JavaBridge('english-bidirectional-distsim.tagger')
 
     def __call__(self, sents):
         # get the raw answers
         taggedA = self.taggerA.tag_sents(sents)
 
-        #try:
-        #    taggedB = self.taggerB.tag_sents(sents)
+        try:
+            taggedB = self.taggerB.tag_sents(sents)
 
-        #    # merge
-        #    tagged0 = []
-        #    for iSent in range(len(taggedA)):
-        #        accum = []
-        #        for iTuple in range(len(taggedA[iSent])):
-        #            a = taggedA[iSent][iTuple]
-        #            b = taggedB[iSent][iTuple]
-        #            c = checkSymbols(pickWinner(a,b))
-        #            accum.append(c)
-        #        tagged0.append(accum)
+            # merge
+            tagged0 = []
+            for iSent in range(len(taggedA)):
+                accum = []
+                for iTuple in range(len(taggedA[iSent])):
+                    a = taggedA[iSent][iTuple]
+                    b = taggedB[iSent][iTuple]
+                    c = checkSymbols(pickWinner(a,b))
+                    accum.append(c)
+                tagged0.append(accum)
 
-        #    return tagged0
-        #except OSError:
-        return [[checkSymbols(t) for t in s] for s in taggedA] 
+            return tagged0
+        except OSError:
+            return [[checkSymbols(t) for t in s] for s in taggedA] 
