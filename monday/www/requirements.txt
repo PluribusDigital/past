@@ -2,4 +2,5 @@ nltk
 requests
 flask
 flask-restful
-pathlib
+pytest
+subprocess32

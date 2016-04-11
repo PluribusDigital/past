@@ -25,6 +25,7 @@ ENV STANFORD_MODELS "/source/postagger/models"
 WORKDIR /usr/src
 
 ADD ./nlp ./nlp
+ADD ./tests ./tests
 ADD setup.py ./
 
 RUN python setup.py develop
